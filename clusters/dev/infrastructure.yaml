@@ -2,10 +2,27 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: infra-istio
+  namespace: flux-system
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/istio
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: infra-weave-gitops
   namespace: flux-system
 spec:
   interval: 5m
+  dependsOn:
+    - name: infra-istio
+      namespace: flux-system
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -20,6 +37,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
+  dependsOn:
+    - name: infra-istio
+      namespace: flux-system
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -34,6 +54,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
+  dependsOn:
+    - name: infra-istio
+      namespace: flux-system
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -48,6 +71,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
+  dependsOn:
+    - name: infra-istio
+      namespace: flux-system
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -58,34 +84,11 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-istio
-  namespace: flux-system
-spec:
-  interval: 5m
-  dependsOn:
-    - name: infra-cert-manager
-      namespace: flux-system
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/istio
-  prune: true
-  wait: true
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: infra-ingress
   namespace: flux-system
 spec:
   interval: 5m
   dependsOn:
-    - name: infra-istio
-      namespace: flux-system
     - name: infra-kubernetes-dashboard
       namespace: flux-system
     - name: infra-weave-gitops
@@ -96,3 +99,7 @@ spec:
   path: ./infrastructure/ingress
   prune: true
   wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
