@@ -71,3 +71,7 @@ spec:
   path: ./infrastructure/istio
   prune: true
   wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

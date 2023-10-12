@@ -7,3 +7,6 @@ resources:
   - repository.yaml
   - release.yaml
   - github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.8.0
+  - cloudflare-api-key.yaml
+  - cert-issuers.yaml
+  - istio-certs.yaml

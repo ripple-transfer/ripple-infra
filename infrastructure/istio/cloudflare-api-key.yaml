@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: cloudflare-api-key-secret
+    namespace: istio-system
+data:
+    api-key: ENC[AES256_GCM,data:X/XoCFQUrUJocJinKJTNqYNJWc+8GOi6KMDSYyiajBUoNZMdlDmHQNBaSBOfA7v2qpKHjG3q4Ks=,iv:xh1b5LhC0Xotb8DAu/z01Txi4PXM01N/7Vr0E3oHAsY=,tag:5X4Vk6KsOu1cuyXtkND6sQ==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1c6fx46g84z5jttsuj3rwps60mrnvljc4mhycmjmqt0szlhmu0vhsk485xh
+          enc: |
+              -----BEGIN AGE ENCRYPTED FILE-----
+              YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBNZHFGeUM4RWxmNDV5dS80
+              YnZ0Z0huWGlXS0c2MjlWN0QwRHppUGJuSlFBCm92NHlSaENLVWVOb2NKdVVJYWJa
+              Ym1BZmJQTUR3V1NMdW1DaU01Rk1hancKLS0tIGM4VHVuRnJlRm04clN5VXFuRXNa
+              akhwWitDN2tNcldMT21tK2lQMzVLalUKOILJYeWJZua4J14XJUfIwUBZ2cDw4qri
+              6gKeaPsBjpDc7Lo0SxbElnoxjnxkMQVzHEoltFPIsRPwqLVgOzIEkA==
+              -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2023-10-12T18:56:22Z"
+    mac: ENC[AES256_GCM,data:fq371RW8S+Ia8srTjGyabGInQW8YIu7FLF6MjeG6Wp4NfZg+lOx9ePCnlBXKa/KZP68fZ2OG4qemMnrbMC0zjTuMHegTs4qC1CUbmmCiupQ+hBTnky3IWfc9A+H+CGyGAV9FqeZStjcmcQMnsDpWF8vu2nSvU36x2WascZscnyc=,iv:ura/zqK7n/i8Ql86bk+eqvxp5kQp91enXiPjvDVn+yw=,tag:rvMsGdRSiiXLfR3DPuTw5A==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.8.0

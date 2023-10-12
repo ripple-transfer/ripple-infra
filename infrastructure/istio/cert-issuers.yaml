@@ -1,0 +1,21 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt
+  namespace: istio-system
+spec:
+  acme:
+    email: paralzsolt@gmail.com
+    # Patch this server for production clusters
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt
+    solvers:
+      - selector: {}
+        dns01:
+          cloudflare:
+            email: paralzsolt@gmail.com
+            apiTokenSecretRef:
+              name: cloudflare-api-key-secret
+              key: api-key
