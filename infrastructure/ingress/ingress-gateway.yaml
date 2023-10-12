@@ -6,12 +6,23 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-    - name: https
+    - name: dashboard
       hostname: "k8s.loom-lang.dev"
       port: 443
       protocol: TLS
       tls:
         mode: Passthrough
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      hostname: "*.loom-lang.dev"
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: loom-lang-dev-tls
       allowedRoutes:
         namespaces:
           from: All
