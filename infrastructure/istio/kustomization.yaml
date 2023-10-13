@@ -3,12 +3,11 @@ kind: Kustomization
 namespace: istio-system
 
 resources:
+  - github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.8.1
   - namespace.yaml
   - repository.yaml
   - release.yaml
-  - github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.8.0
   - https://raw.githubusercontent.com/istio/istio/release-1.19/samples/addons/kiali.yaml
   - https://raw.githubusercontent.com/istio/istio/release-1.19/samples/addons/prometheus.yaml
   - https://raw.githubusercontent.com/istio/istio/release-1.19/samples/addons/jaeger.yaml
   - https://raw.githubusercontent.com/istio/istio/release-1.19/samples/addons/grafana.yaml
-  - telemetry.yaml

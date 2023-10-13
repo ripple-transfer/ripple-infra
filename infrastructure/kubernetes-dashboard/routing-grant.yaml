@@ -2,12 +2,12 @@ apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
   name: kubernetes-dashboard
-  namespace: flux-system
+  namespace: kubernetes-dashboard
 spec:
   from:
     - group: gateway.networking.k8s.io
       kind: TLSRoute
-      namespace: istio-system
+      namespace: istio-ingress
   to:
     - group: ""
       kind: Service
