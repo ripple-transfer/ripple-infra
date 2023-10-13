@@ -25,7 +25,8 @@ spec:
   parentRefs:
     - name: dev-gateway
       namespace: istio-system
-  hostnames: ["gitops.loom-lang.dev"]
+  hostnames:
+    - "gitops.loom-lang.dev"
   rules:
     - backendRefs:
         - name: weave-gitops-dashboard

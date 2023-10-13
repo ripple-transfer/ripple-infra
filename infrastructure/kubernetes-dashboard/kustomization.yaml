@@ -6,6 +6,7 @@ resources:
   - admin-serviceaccount.yaml
   - admin-secret.yaml
   - https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+  - routing-grant.yaml
 
 patches:
   - target:
