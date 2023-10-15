@@ -7,5 +7,5 @@ resources:
   - ingress-gateway.yaml
   - ingress-routes.yaml
   - cloudflare-api-key.yaml
-  - cert-issuers.yaml
-  - istio-certs.yaml
+  - letsenctypt-issuer.yaml
+  - letsenctypt-certificate.yaml

@@ -1,0 +1,30 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: linkerd-control-plane
+  namespace: linkerd
+spec:
+  interval: 5m
+  targetNamespace: linkerd
+  releaseName: linkerd-control-plane
+  dependsOn:
+    - name: linkerd-crds
+      namespace: linkerd
+  chart:
+    spec:
+      chart: linkerd-control-plane
+      version: "1.x"
+      sourceRef:
+        kind: HelmRepository
+        name: linkerd
+      interval: 1h
+  values:
+    identity:
+      issuer:
+        scheme: "kubernetes.io/tls"
+  valuesFrom:
+    - kind: Secret
+      name: linkerd-trust-anchor
+      valuesKey: ca.crt
+      targetPath: identityTrustAnchorsPEM

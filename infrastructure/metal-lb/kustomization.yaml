@@ -10,6 +10,6 @@ patches:
       name: metallb-system
     patch: |-
       - op: add
-        path: /metadata/labels
+        path: /metadata/annotations
         value:
-          istio-injection: disabled
+          linkerd.io/inject: enabled

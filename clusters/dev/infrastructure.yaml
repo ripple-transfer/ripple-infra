@@ -2,14 +2,82 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-istio
+  name: infra-cert-manager
   namespace: flux-system
 spec:
   interval: 5m
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/istio
+  path: ./infrastructure/cert-manager
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-linkerd-base
+  namespace: flux-system
+spec:
+  interval: 5m
+  dependsOn:
+    - name: infra-cert-manager
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/linkerd-base
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-linkerd
+  namespace: flux-system
+spec:
+  interval: 5m
+  dependsOn:
+    - name: infra-linkerd-base
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/linkerd
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-linkerd-smi
+  namespace: flux-system
+spec:
+  interval: 5m
+  dependsOn:
+    - name: infra-linkerd
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/linkerd-smi
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-linkerd-viz
+  namespace: flux-system
+spec:
+  interval: 5m
+  dependsOn:
+    - name: infra-linkerd
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/linkerd-viz
   prune: true
   wait: true
 ---
@@ -21,7 +89,7 @@ metadata:
 spec:
   interval: 5m
   dependsOn:
-    - name: infra-istio
+    - name: infra-linkerd
       namespace: flux-system
   sourceRef:
     kind: GitRepository
@@ -38,7 +106,7 @@ metadata:
 spec:
   interval: 5m
   dependsOn:
-    - name: infra-istio
+    - name: infra-linkerd
       namespace: flux-system
   sourceRef:
     kind: GitRepository
@@ -55,7 +123,7 @@ metadata:
 spec:
   interval: 5m
   dependsOn:
-    - name: infra-istio
+    - name: infra-linkerd
       namespace: flux-system
   sourceRef:
     kind: GitRepository
@@ -72,7 +140,7 @@ metadata:
 spec:
   interval: 5m
   dependsOn:
-    - name: infra-istio
+    - name: infra-linkerd
       namespace: flux-system
   sourceRef:
     kind: GitRepository
@@ -81,42 +149,25 @@ spec:
   prune: true
   wait: true
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: infra-cert-manager
-  namespace: flux-system
-spec:
-  interval: 5m
-  dependsOn:
-    - name: infra-istio
-      namespace: flux-system
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/cert-manager
-  prune: true
-  wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: infra-ingress
-  namespace: flux-system
-spec:
-  interval: 5m
-  dependsOn:
-    - name: infra-kubernetes-dashboard
-      namespace: flux-system
-    - name: infra-weave-gitops
-      namespace: flux-system
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/ingress
-  prune: true
-  wait: true
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: infra-ingress
+#   namespace: flux-system
+# spec:
+#   interval: 5m
+#   dependsOn:
+#     - name: infra-kubernetes-dashboard
+#       namespace: flux-system
+#     - name: infra-weave-gitops
+#       namespace: flux-system
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#   path: ./infrastructure/ingress
+#   prune: true
+#   wait: true
+#   decryption:
+#     provider: sops
+#     secretRef:
+#       name: sops-age
