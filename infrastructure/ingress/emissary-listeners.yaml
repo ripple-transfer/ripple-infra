@@ -1,0 +1,35 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Listener
+metadata:
+  name: emissary-ingress-listener-https
+  namespace: ingress
+spec:
+  port: 8443
+  protocol: HTTPS
+  securityModel: XFP
+  hostBinding:
+    namespace:
+      from: SELF
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Host
+metadata:
+  name: https-host
+  namespace: ingress
+spec:
+  hostname: "*.loom-lang.dev"
+  acmeProvider:
+    authority: none
+  tlsSecret:
+    name: loom-lang-dev-tls
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: weave-gitops-dashboard
+  namespace: ingress
+spec:
+  hostname: "gitops.loom-lang.dev"
+  prefix: /
+  service: weave-gitops-dashboard.flux-system:9001

@@ -1,0 +1,9 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Module
+metadata:
+  name: ambassador
+  namespace: ingress
+spec:
+  config:
+    add_linkerd_headers: true

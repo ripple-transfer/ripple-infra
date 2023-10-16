@@ -1,11 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: istio-ingress
+namespace: ingress
 
 resources:
-  - namespace.yaml
-  - ingress-gateway.yaml
-  - ingress-routes.yaml
   - cloudflare-api-key.yaml
-  - letsenctypt-issuer.yaml
-  - letsenctypt-certificate.yaml
+  - emissary.yaml
+  - emissary-listeners.yaml
+  - letsencrypt-issuer.yaml
+  - letsencrypt-certificate.yaml
+  - repository.yaml
