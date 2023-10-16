@@ -84,23 +84,6 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-observability
-  namespace: flux-system
-spec:
-  interval: 5m
-  dependsOn:
-    - name: infra-linkerd
-      namespace: flux-system
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/observability/dev
-  prune: true
-  wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: infra-weave-gitops
   namespace: flux-system
 spec:

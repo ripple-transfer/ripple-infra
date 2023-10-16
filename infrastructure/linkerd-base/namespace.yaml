@@ -5,6 +5,8 @@ metadata:
   name: linkerd
   annotations:
     linkerd.io/inject: disabled
+    kustomize.toolkit.fluxcd.io/ssa: merge
   labels:
     linkerd.io/is-control-plane: "true"
     linkerd.io/control-plane-ns: linkerd
+    config.linkerd.io/admission-webhooks: disabled

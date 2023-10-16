@@ -8,12 +8,13 @@ spec:
   interval: 30m
   targetNamespace: linkerd-smi
   releaseName: linkerd-smi
+  suspend: false
   dependsOn:
     - name: linkerd-control-plane
       namespace: linkerd
   chart:
     spec:
-      version: "0.x"
+      version: "1.x"
       chart: linkerd-smi
       sourceRef:
         kind: HelmRepository

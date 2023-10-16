@@ -3,4 +3,24 @@ kind: Kustomization
 resources:
   - gotk-components.yaml # manifests generated during bootstrap
   - gotk-sync.yaml
+  - cluster.yaml
   - ../../base/flux-system
+patches:
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --concurrent=20
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --requeue-dependency=5s
+    target:
+      kind: Deployment
+      name: "(kustomize-controller|helm-controller|source-controller)"
+  - patch: |-
+      - op: add
+        path: /metadata/annotations
+        value:
+          linkerd.io/inject: enabled
+    target:
+      kind: Namespace
+      name: flux-system
