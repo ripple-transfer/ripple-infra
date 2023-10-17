@@ -22,6 +22,6 @@ spec:
       interval: 12h
   values:
     grafana:
-      enabled: true
+      url: grafana.grafana:3000
     prometheus:
       enabled: true
