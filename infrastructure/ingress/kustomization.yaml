@@ -9,3 +9,4 @@ resources:
   - letsencrypt-issuer.yaml
   - letsencrypt-certificate.yaml
   - repository.yaml
+  - routes-dev.yaml

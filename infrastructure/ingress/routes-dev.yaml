@@ -1,0 +1,41 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: weave-gitops-dashboard
+  namespace: ingress
+spec:
+  hostname: "gitops.loom-lang.dev"
+  prefix: /
+  service: weave-gitops-dashboard.flux-system:9001
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: kubernetes-dashboard
+  namespace: ingress
+spec:
+  hostname: "k8s.loom-lang.dev"
+  prefix: /
+  service: kubernetes-dashboard.kubernetes-dashboard:9090
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: linkerd-dashboard
+  namespace: ingress
+spec:
+  hostname: "linkerd.loom-lang.dev"
+  prefix: /
+  host_rewrite: web.linkerd-viz.svc.cluster.local:8084
+  service: web.linkerd-viz:8084
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: grafana-dashboard
+  namespace: ingress
+spec:
+  hostname: "grafana.loom-lang.dev"
+  prefix: /
+  service: grafana.grafana:3000

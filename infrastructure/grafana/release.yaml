@@ -19,8 +19,6 @@ spec:
       interval: 12h
   values:
     grafana.ini:
-      server:
-        root_url: "%(protocol)s://%(domain)s:/grafana/"
       auth:
         disable_login_form: true
       auth.anonymous:

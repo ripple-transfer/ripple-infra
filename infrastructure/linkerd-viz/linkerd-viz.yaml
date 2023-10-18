@@ -22,6 +22,6 @@ spec:
       interval: 12h
   values:
     grafana:
-      url: grafana.grafana:3000
+      externalUrl: https://grafana.loom-lang.dev/
     prometheus:
       enabled: true

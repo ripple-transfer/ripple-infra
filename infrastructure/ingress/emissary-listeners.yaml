@@ -23,23 +23,3 @@ spec:
     authority: none
   tlsSecret:
     name: loom-lang-dev-tls
----
-apiVersion: getambassador.io/v3alpha1
-kind: Mapping
-metadata:
-  name: weave-gitops-dashboard
-  namespace: ingress
-spec:
-  hostname: "gitops.loom-lang.dev"
-  prefix: /
-  service: weave-gitops-dashboard.flux-system:9001
----
-apiVersion: getambassador.io/v3alpha1
-kind: Mapping
-metadata:
-  name: kubernetes-dashboard
-  namespace: ingress
-spec:
-  hostname: "k8s.loom-lang.dev"
-  prefix: /
-  service: kubernetes-dashboard.kubernetes-dashboard:9090
