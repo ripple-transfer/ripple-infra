@@ -8,10 +8,6 @@ spec:
   interval: 30m
   targetNamespace: linkerd-smi
   releaseName: linkerd-smi
-  suspend: false
-  dependsOn:
-    - name: linkerd-control-plane
-      namespace: linkerd
   chart:
     spec:
       version: "1.x"

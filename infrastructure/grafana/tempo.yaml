@@ -1,0 +1,46 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: grafana-tempo
+  namespace: grafana
+spec:
+  interval: 30m
+  targetNamespace: grafana
+  releaseName: grafana-tempo
+  chart:
+    spec:
+      chart: tempo-distributed
+      version: "1.x"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: grafana
+      interval: 12h
+  values:
+    traces:
+      otlp:
+        grpc:
+          enabled: true
+        http:
+          enabled: true
+      zipkin:
+        enabled: true
+      jaeger:
+        thriftHttp:
+          enabled: true
+      opencensus:
+        enabled: false
+    gateway:
+      enabled: true
+    minio:
+      enabled: true
+    storage:
+      trace:
+        backend: s3
+        s3:
+          access_key: "grafana-tempo"
+          secret_key: "supersecret"
+          bucket: "tempo-traces"
+          endpoint: "tempo-minio:9000"
+          insecure: true

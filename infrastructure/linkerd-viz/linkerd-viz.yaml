@@ -8,9 +8,6 @@ spec:
   interval: 30m
   targetNamespace: linkerd-viz
   releaseName: linkerd-viz
-  dependsOn:
-    - name: linkerd-control-plane
-      namespace: linkerd
   chart:
     spec:
       version: "30.x"
@@ -25,3 +22,4 @@ spec:
       externalUrl: https://grafana.loom-lang.dev/
     prometheus:
       enabled: true
+    jaegerUrl: jaeger.linkerd-jaeger:16686
