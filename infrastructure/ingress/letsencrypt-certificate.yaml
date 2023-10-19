@@ -9,3 +9,5 @@ spec:
     name: letsencrypt
   dnsNames:
     - "*.loom-lang.dev"
+  privateKey:
+    rotationPolicy: Always

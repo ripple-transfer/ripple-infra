@@ -6,4 +6,4 @@ resources:
   - namespace.yaml
   - grafana.yaml
   - repository.yaml
-  - tempo.yaml
+#  - tempo.yaml

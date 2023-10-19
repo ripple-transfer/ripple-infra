@@ -18,7 +18,7 @@ spec:
   secretName: linkerd-trust-anchor
   privateKey:
     algorithm: ECDSA
-    size: 256
+    rotationPolicy: Always
   issuerRef:
     name: linkerd-selfsigned-issuer
   subject:
