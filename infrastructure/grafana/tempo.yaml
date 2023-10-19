@@ -31,16 +31,21 @@ spec:
           enabled: true
       opencensus:
         enabled: false
-    gateway:
-      enabled: true
     minio:
-      enabled: true
+      enabled: false
     storage:
       trace:
         backend: s3
         s3:
-          access_key: "grafana-tempo"
-          secret_key: "supersecret"
           bucket: "tempo-traces"
-          endpoint: "tempo-minio:9000"
+          endpoint: "minio.minio:9000"
           insecure: true
+  valuesFrom:
+    - kind: Secret
+      name: minio-root
+      valuesKey: root-user
+      targetPath: storage.trace.s3.access_key
+    - kind: Secret
+      name: minio-root
+      valuesKey: root-password
+      targetPath: storage.trace.s3.secret_key

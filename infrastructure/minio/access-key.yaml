@@ -4,7 +4,7 @@ metadata:
     name: minio-root
     annotations:
         reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-        reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: grafana
+        reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "grafana,s3-operator"
         reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
 data:
     root-user: ENC[AES256_GCM,data:otHBGjz2CjI=,iv:RcU627Tc/mb79CuL9jm4l2KFP48vWtFLUDVO+yD51yA=,tag:Ll2DbkuYOqEziPQ0APz13g==,type:str]
@@ -17,13 +17,13 @@ sops:
     age:
         - recipient: age1c6fx46g84z5jttsuj3rwps60mrnvljc4mhycmjmqt0szlhmu0vhsk485xh
           enc: |
-            -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBiYUVjakhDSDNjOHBRZzF5
-            SDNWWGNDZU04ZHpLYWEyM01FTEk1N3pDQ3dnClRNUDI1czJmVXBqMTlyQWxzWlcx
-            WUNVb0xidnFnQWZyMlNnMGhudi9ZbXcKLS0tIE9LZnRid2Q2em5qRHhrYnhUU3lW
-            dGMrR2w0bmdsaUNMT3hJSlVLSTdsenMKPv2zkugrXm983esRvK4Rl9BVDa5iCvK5
-            0spI1cv69/z4ixik2E2cse8Bis99l7UccayvZQYM2QUolPQTjx3Uog==
-            -----END AGE ENCRYPTED FILE-----
+              -----BEGIN AGE ENCRYPTED FILE-----
+              YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBiYUVjakhDSDNjOHBRZzF5
+              SDNWWGNDZU04ZHpLYWEyM01FTEk1N3pDQ3dnClRNUDI1czJmVXBqMTlyQWxzWlcx
+              WUNVb0xidnFnQWZyMlNnMGhudi9ZbXcKLS0tIE9LZnRid2Q2em5qRHhrYnhUU3lW
+              dGMrR2w0bmdsaUNMT3hJSlVLSTdsenMKPv2zkugrXm983esRvK4Rl9BVDa5iCvK5
+              0spI1cv69/z4ixik2E2cse8Bis99l7UccayvZQYM2QUolPQTjx3Uog==
+              -----END AGE ENCRYPTED FILE-----
     lastmodified: "2023-10-19T14:59:01Z"
     mac: ENC[AES256_GCM,data:0s5ipELVTlUtB37FrXawdUx5O+QK/YEsdTRGDARPev8ayn899J3Gj28FTXVMlv+J6pAugGwqquogbM7HxqFW9frBMwjjnXZs659jMCg7hUocPn7SajFQ23RLT+JKikCKnUadCBcOEKPiKumSs51jWQAFOXdYe6Y8y/0uU42c8mE=,iv:ioQpopPC4v3CT54XI/GS7Umyu3CmkXQjG945LTgdHOI=,tag:TPwJ05xMibFwPjfa19EFoQ==,type:str]
     pgp: []

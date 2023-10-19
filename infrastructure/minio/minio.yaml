@@ -17,3 +17,5 @@ spec:
   values:
     auth:
       existingSecret: minio-root
+    # TODO: create buckets at the place of usage
+    defaultBuckets: "tempo-traces"
