@@ -1,0 +1,19 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minio
+  namespace: minio
+spec:
+  interval: 30m
+  chart:
+    spec:
+      version: "12.x"
+      chart: minio
+      sourceRef:
+        kind: HelmRepository
+        name: minio
+      interval: 12h
+  values:
+    auth:
+      existingSecret: minio-root
