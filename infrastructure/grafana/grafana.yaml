@@ -35,6 +35,8 @@ spec:
       log.console:
         format: text
         level: info
+      tracing.opentelemetry.otlp:
+        address: grafana-tempo-distributor.grafana.svc.cluster.local:4317
 
     datasources:
       datasources.yaml:

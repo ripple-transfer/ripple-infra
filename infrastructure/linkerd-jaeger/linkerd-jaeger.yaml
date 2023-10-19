@@ -17,3 +17,11 @@ spec:
         name: linkerd
         namespace: linkerd
       interval: 12h
+  values:
+    collector:
+      enabled: false
+    jaeger:
+      enabled: false
+    webhook:
+      collectorSvcAddr: grafana-tempo-distributor.grafana.svc.cluster.local:55678
+      collectorSvcAccount: grafana-tempo

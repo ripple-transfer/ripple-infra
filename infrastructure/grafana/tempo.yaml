@@ -30,7 +30,7 @@ spec:
         thriftHttp:
           enabled: true
       opencensus:
-        enabled: false
+        enabled: true
     minio:
       enabled: false
     storage:

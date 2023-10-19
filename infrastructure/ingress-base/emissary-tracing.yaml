@@ -1,0 +1,21 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: TracingService
+metadata:
+  name: tracing
+  namespace: ingress
+spec:
+  service: grafana-tempo-distributor.grafana.svc.cluster.local:4317
+  driver: opentelemetry
+  config: {}
+  custom_tags:
+    - tag: host
+      request_header:
+        name: ":authority"
+        default_value: "unknown"
+    - tag: path
+      request_header:
+        name: ":path"
+        default_value: "unknown"
+  sampling:
+    overall: 100
