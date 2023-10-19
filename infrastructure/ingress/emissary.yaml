@@ -22,3 +22,4 @@ spec:
       deploymentNamespace: ingress
     agent:
       enabled: false
+    module: false

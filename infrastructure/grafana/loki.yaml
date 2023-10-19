@@ -1,0 +1,64 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: grafana-loki
+  namespace: grafana
+spec:
+  interval: 30m
+  timeout: 15m
+  chart:
+    spec:
+      chart: loki
+      version: "5.x"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: grafana
+      interval: 12h
+  values:
+    loki:
+      commonConfig:
+        replication_factor: 3
+      structuredConfig:
+        auth_enabled: false
+      storage:
+        type: s3
+        bucketNames:
+          chunks: loki-chunks
+          ruler: loki-ruler
+          admin: loki-admin
+        s3:
+          endpoint: "minio.minio.svc.cluster.local.:9000"
+          insecure: true
+          s3ForcePathStyle: true
+    singleBinary:
+      replicas: 3
+      affinity: null
+    monitoring:
+      dashboards:
+        annotations:
+          grafana.io/folder: Loki
+        labels:
+          grafana.io/dashboard: "true"
+      serviceMonitor:
+        enabled: false
+        metricsInstance:
+          enabled: false
+      selfMonitoring:
+        enabled: false
+        grafanaAgent:
+          installOperator: false
+      lokiCanary:
+        enabled: false
+    test:
+      enabled: false
+  valuesFrom:
+    - kind: Secret
+      name: minio-root
+      valuesKey: root-user
+      targetPath: loki.storage.s3.accessKeyId
+    - kind: Secret
+      name: minio-root
+      valuesKey: root-password
+      targetPath: loki.storage.s3.secretAccessKey

@@ -36,7 +36,7 @@ spec:
         format: text
         level: info
       tracing.opentelemetry.otlp:
-        address: grafana-tempo-distributor.grafana.svc.cluster.local:4317
+        address: "grafana-tempo-distributor.grafana.svc.cluster.local:4317"
 
     datasources:
       datasources.yaml:
@@ -55,6 +55,18 @@ spec:
             uid: tempo
             access: proxy
             url: http://grafana-tempo-query-frontend.grafana.svc.cluster.local:3100
+          - name: loki
+            type: loki
+            uid: loki
+            access: proxy
+            url: http://loki-gateway.grafana.svc.cluster.local:80
+            jsonData:
+              derivedFields:
+                - name: TraceID
+                  datasourceUid: tempo
+                  matcherRegex: "traceID=(\\w+)"
+                  url: "$${__value.raw}"
+                  urlDisplayLabel: "View Trace"
 
     dashboardProviders:
       dashboardproviders.yaml:

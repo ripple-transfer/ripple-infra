@@ -4,8 +4,6 @@ namespace: ingress
 
 resources:
   - https://app.getambassador.io/yaml/emissary/3.8.2/emissary-crds.yaml
-  - emissary-module.yaml
-  - emissary-tracing.yaml
 patches:
   - patch: |-
       - op: add
