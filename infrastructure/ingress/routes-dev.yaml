@@ -39,3 +39,35 @@ spec:
   hostname: "grafana.loom-lang.dev"
   prefix: /
   service: grafana.grafana:3000
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: minio
+  namespace: ingress
+spec:
+  hostname: "minio.loom-lang.dev"
+  prefix: /
+  service: minio.minio:9001
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: hubble-api
+  namespace: ingress
+spec:
+  hostname: "hubble.loom-lang.dev"
+  prefix: /api/
+  rewrite: /api/
+  timeout_ms: 0
+  service: hubble-ui.kube-system:80
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: hubble
+  namespace: ingress
+spec:
+  hostname: "hubble.loom-lang.dev"
+  prefix: /
+  service: hubble-ui.kube-system:80

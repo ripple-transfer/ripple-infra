@@ -1,0 +1,15 @@
+ipam:
+  mode: kubernetes
+socketLB:
+  hostNamespaceOnly: true
+l2announcements:
+  enabled: true
+hubble:
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+
+kubeProxyReplacement: true
+k8sServiceHost: loom-dev-control-plane
+k8sServicePort: 6443

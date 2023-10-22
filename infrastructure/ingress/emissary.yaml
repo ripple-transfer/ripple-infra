@@ -23,3 +23,19 @@ spec:
     agent:
       enabled: false
     module: false
+    service:
+      nameOverride: emissary-ingress
+      labels:
+        announce: l2
+      annotations:
+        "io.cilium/lb-ipam-ips": "172.18.255.50"
+  postRenderers:
+    - kustomize:
+        patchesJson6902:
+          - target:
+              kind: Service
+              name: emissary-ingress
+            patch:
+              - op: add
+                path: /metadata/labels/loom-lang.announce
+                value: l2

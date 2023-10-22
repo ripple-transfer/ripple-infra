@@ -7,9 +7,8 @@ resources:
 patches:
   - patch: |-
       - op: add
-        path: /metadata/annotations
-        value:
-          linkerd.io/inject: enabled
+        path: /metadata/annotations/linkerd.io~1inject
+        value: enabled
     target:
       kind: Namespace
       name: emissary-system

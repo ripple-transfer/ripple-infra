@@ -13,6 +13,5 @@ patches:
       name: kubernetes-dashboard
     patch: |-
       - op: add
-        path: /metadata/annotations
-        value:
-          linkerd.io/inject: enabled
+        path: /metadata/annotations/linkerd.io~1inject
+        value: enabled
