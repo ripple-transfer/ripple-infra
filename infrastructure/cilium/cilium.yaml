@@ -18,5 +18,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: cilium-values
+    # We actually upgrade the Cilium installation in-place, by enabling mTLS for Hubble after the bootstrap
+    # is complete. This allows us to install cert-manager before this step.
     - kind: ConfigMap
       name: cilium-values-tls

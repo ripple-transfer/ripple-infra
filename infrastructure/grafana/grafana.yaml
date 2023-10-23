@@ -47,6 +47,9 @@ spec:
             uid: prometheus
             access: proxy
             url: http://prometheus.linkerd-viz.svc.cluster.local:9090
+            # Hassle: You should not define multiple `isDefault` data sources.
+            # This might be self-explanatory, but combined with automatic Flux deployments, it's not
+            # very easy to debug
             isDefault: true
             jsonData:
               timeInterval: "5s"
@@ -63,6 +66,8 @@ spec:
             jsonData:
               derivedFields:
                 - name: TraceID
+                  # Hassle: This has to point to the data source UID of the tracing data source, which
+                  # is not immediately clear from the documentation
                   datasourceUid: tempo
                   matcherRegex: "traceID=(\\w+)"
                   url: "$${__value.raw}"

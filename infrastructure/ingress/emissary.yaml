@@ -19,15 +19,22 @@ spec:
       interval: 12h
   values:
     waitForApiext:
+      # We are explicitly overriding the namespace of emissary-apiext in `ingress-base`, so we
+      # need to tell the chart where it can find it
       deploymentNamespace: ingress
+    # We are not using the cloud features, so there's no need to deploy the agent
     agent:
       enabled: false
+    # We want to have full control over the module configuration, so it's created as part of the
+    # `ingress-config` step. Only a single module can exist in a namespace, so we have to turn the
+    # automatic one off.
     module: false
     service:
       nameOverride: emissary-ingress
       labels:
         announce: l2
       annotations:
+        # Hassle: Picking a fix IP here makes it easier to set up dnsmasq on the host machine
         "io.cilium/lb-ipam-ips": "172.18.255.50"
   postRenderers:
     - kustomize:

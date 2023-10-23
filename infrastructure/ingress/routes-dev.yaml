@@ -1,3 +1,6 @@
+# Hassle: The ability to expose services under a path, instead of a subdomain varies greatly between
+# the different services. Grafana supports this use-case very nicely, while kubernetes-dashboard does
+# not at all. For the sake of consistency, we just using subdomains for all of them.
 ---
 apiVersion: getambassador.io/v3alpha1
 kind: Mapping
@@ -27,6 +30,8 @@ metadata:
 spec:
   hostname: "linkerd.loom-lang.dev"
   prefix: /
+  # By default, linkerd does not want us to expose its dashboard, so we rewrite it
+  # See: https://linkerd.io/2.14/tasks/exposing-dashboard/
   host_rewrite: web.linkerd-viz.svc.cluster.local:8084
   service: web.linkerd-viz:8084
 ---
@@ -59,6 +64,9 @@ spec:
   hostname: "hubble.loom-lang.dev"
   prefix: /api/
   rewrite: /api/
+  # Hassle: Hubble UI is using HTTP streaming to get network flow updates to the UI.
+  # The automatic timeout kills this connection, leading to a broken UI and reconnect
+  # attempts every few seconds.
   timeout_ms: 0
   service: hubble-ui.kube-system:80
 ---

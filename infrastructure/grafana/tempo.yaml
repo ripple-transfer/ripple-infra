@@ -41,6 +41,8 @@ spec:
           endpoint: "minio.minio:9000"
           insecure: true
   valuesFrom:
+    # Secrets are copied by reflector from the `minio` namespace automatically
+    # TODO: flip responsibilities by declaring the secret here
     - kind: Secret
       name: minio-root
       valuesKey: root-user

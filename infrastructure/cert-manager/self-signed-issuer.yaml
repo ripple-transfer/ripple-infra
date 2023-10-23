@@ -2,6 +2,8 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
+  # We don't really need more than one self-signed issuer per cluster. We use this to bootstrap
+  # trust anchor issuers for all other relevant services
   name: selfsigned-issuer
 spec:
   selfSigned: {}

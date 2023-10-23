@@ -3,6 +3,9 @@ kind: Kustomization
 namespace: cert-manager
 
 resources:
+  # Hassle: we need to install the cert-manager CRDs manually, because Helm is terrible at managing
+  # them. Unless installed this way, Flux cannot reconcile the Kustomization, leading to a failed install.
+  # Make sure to keep the versions in sync with the ones in the cert-manager chart
   - https://github.com/cert-manager/cert-manager/releases/download/v1.13.1/cert-manager.crds.yaml
   - namespace.yaml
   - repository.yaml

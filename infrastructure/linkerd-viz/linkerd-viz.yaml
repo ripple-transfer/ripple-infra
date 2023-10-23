@@ -22,4 +22,5 @@ spec:
       externalUrl: https://grafana.loom-lang.dev/
     prometheus:
       enabled: true
+    # TODO: Is there a way to link Tempo here instead?
     jaegerUrl: jaeger.linkerd-jaeger:16686

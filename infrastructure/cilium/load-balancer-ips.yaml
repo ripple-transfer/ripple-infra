@@ -5,4 +5,5 @@ metadata:
   namespace: kube-system
 spec:
   cidrs:
+    # This should be from the same subclass as the kind network
     - cidr: "172.18.255.0/26"

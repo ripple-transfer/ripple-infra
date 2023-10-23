@@ -22,6 +22,8 @@ spec:
         replication_factor: 3
       structuredConfig:
         auth_enabled: false
+      # Hassle: This storage configuration is just marginally different and mutually incompatible
+      # from Tempo's.
       storage:
         type: s3
         bucketNames:
@@ -29,12 +31,21 @@ spec:
           ruler: loki-ruler
           admin: loki-admin
         s3:
+          # Hassle: Note the dot at the end of the endpoint. Without it, Loki produces URLs in the form of
+          # <bucket>.<endpoint> instead of the correct <endpoint>/<bucket>
           endpoint: "minio.minio.svc.cluster.local.:9000"
           insecure: true
           s3ForcePathStyle: true
+    # Hassle: This is a temporary compromise to get something working. The distributed version has proven very
+    # difficult to get working with very unhelpful error messages and basically no documenation.
+    # TODO: Move to microservice-based Loki
     singleBinary:
       replicas: 3
+      # Hassle: Loki, by default has hard anti-affinity rules that prevent two pods from being scheduled on the
+      # same node. This is perfect for a production system, but on a 2-worker Kind cluster it makes the deployment
+      # impossible.
       affinity: null
+    # TODO: We turned off quite a few things here to get a deployment up and running. Re-enable service and self monitoring
     monitoring:
       dashboards:
         annotations:

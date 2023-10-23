@@ -5,6 +5,9 @@ encryption:
   type: wireguard
   nodeEncryption: true
 socketLB:
+  # Hassle: This option is needed for some of the more advanced Linkerd features to work
+  # transparently with Cilium (EWMA load balancing, dynamic request routing).
+  # See: https://linkerd.io/2.14/reference/cluster-configuration/#cilium
   hostNamespaceOnly: true
 l2announcements:
   enabled: true
