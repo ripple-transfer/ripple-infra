@@ -2,31 +2,48 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-cilium
+  name: infra-cert-manager
   namespace: flux-system
 spec:
   interval: 5m
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/cilium
+  path: ./infrastructure/cert-manager
   prune: true
   wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-cert-manager
+  name: infra-cilium-base
   namespace: flux-system
 spec:
   interval: 5m
   dependsOn:
-    - name: infra-cilium
+    - name: infra-cert-manager
       namespace: flux-system
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/cert-manager
+  path: ./infrastructure/cilium-base
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-cilium
+  namespace: flux-system
+spec:
+  interval: 5m
+  dependsOn:
+    - name: infra-cilium-base
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/cilium
   prune: true
   wait: true
 ---
@@ -38,7 +55,7 @@ metadata:
 spec:
   interval: 5m
   dependsOn:
-    - name: infra-cert-manager
+    - name: infra-cilium
       namespace: flux-system
   sourceRef:
     kind: GitRepository

@@ -2,14 +2,14 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: linkerd-trust-anchor
-  namespace: linkerd
+  name: cilium-trust-anchor
+  namespace: kube-system
 spec:
   isCA: true
   duration: 87660h
   renewBefore: 720h
-  commonName: root.linkerd.cluster.local
-  secretName: linkerd-trust-anchor
+  commonName: root.cilium.io
+  secretName: cilium-trust-anchor
   privateKey:
     algorithm: ECDSA
     rotationPolicy: Always
@@ -20,13 +20,13 @@ spec:
     organizations:
       - Loom
     organizationalUnits:
-      - linkerd
+      - cilium
 ---
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: linkerd-trust-anchor
-  namespace: linkerd
+  name: cilium-trust-anchor
+  namespace: kube-system
 spec:
   ca:
-    secretName: linkerd-trust-anchor
+    secretName: cilium-trust-anchor

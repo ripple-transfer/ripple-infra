@@ -1,5 +1,9 @@
 ipam:
   mode: kubernetes
+encryption:
+  enabled: true
+  type: wireguard
+  nodeEncryption: true
 socketLB:
   hostNamespaceOnly: true
 l2announcements:

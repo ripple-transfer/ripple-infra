@@ -10,5 +10,9 @@ configMapGenerator:
     namespace: kube-system
     files:
       - values.yaml
+  - name: cilium-values-tls
+    namespace: kube-system
+    files:
+      - values.yaml=values-tls.yaml
 configurations:
   - kustomizeconfig.yaml
