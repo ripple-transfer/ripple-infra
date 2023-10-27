@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flux-infrastructure
+  annotations:
+    linkerd.io/inject: enabled
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: loom-infra
+  namespace: flux-infrastructure
+spec:
+  interval: 1m0s
+  ref:
+    branch: master
+  url: https://github.com/loom-lang/loom-infra.git

@@ -9,7 +9,7 @@ kind create cluster --config kind-config.yaml
 # Install Cilium, so we have a CNI in the cluster. We use the same values file that will
 # be loaded by Flux, so we can transfer ownership of this installation once Flux is bootstrapped
 helm repo add cilium https://helm.cilium.io/
-helm install cilium cilium/cilium --namespace kube-system -f ./infrastructure/cilium/values.yaml
+helm install cilium cilium/cilium --namespace kube-system -f ./infrastructure/networking/cilium/values.yaml
 cilium status --wait
 
 # Now, we can bootstrap Flux

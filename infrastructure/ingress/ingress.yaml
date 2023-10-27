@@ -1,0 +1,52 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: ingress-ingress-base
+  namespace: flux-infrastructure
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: loom-infra
+  path: ./infrastructure/ingress/ingress-base
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: ingress-ingress-config
+  namespace: flux-infrastructure
+spec:
+  interval: 5m
+  dependsOn:
+    - name: ingress-ingress-base
+      namespace: flux-infrastructure
+  sourceRef:
+    kind: GitRepository
+    name: loom-infra
+  path: ./infrastructure/ingress/ingress-config
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: ingress-ingress
+  namespace: flux-infrastructure
+spec:
+  interval: 5m
+  dependsOn:
+    - name: ingress-ingress-config
+      namespace: flux-infrastructure
+  sourceRef:
+    kind: GitRepository
+    name: loom-infra
+  path: ./infrastructure/ingress/ingress
+  prune: true
+  wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

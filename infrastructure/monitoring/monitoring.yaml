@@ -2,89 +2,69 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: networking
+  name: monitoring-linkerd-viz
   namespace: flux-infrastructure
 spec:
   interval: 5m
   sourceRef:
     kind: GitRepository
     name: loom-infra
-  path: ./infrastructure/networking
+  path: ./infrastructure/monitoring/linkerd-viz
   prune: true
   wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: utilities
+  name: monitoring-linkerd-jaeger
   namespace: flux-infrastructure
 spec:
   interval: 5m
-  dependsOn:
-    - name: networking
-      namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
     name: loom-infra
-  path: ./infrastructure/utilities
+  path: ./infrastructure/monitoring/linkerd-jaeger
   prune: true
   wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: storage
+  name: monitoring-grafana
   namespace: flux-infrastructure
 spec:
   interval: 5m
-  dependsOn:
-    - name: networking
-      namespace: flux-infrastructure
-    - name: utilities
-      namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
     name: loom-infra
-  path: ./infrastructure/storage
+  path: ./infrastructure/monitoring/grafana
   prune: true
   wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: monitoring
+  name: monitoring-weave-gitops
   namespace: flux-infrastructure
 spec:
   interval: 5m
-  dependsOn:
-    - name: networking
-      namespace: flux-infrastructure
-    - name: utilities
-      namespace: flux-infrastructure
-    - name: storage
-      namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
     name: loom-infra
-  path: ./infrastructure/monitoring
+  path: ./infrastructure/monitoring/weave-gitops
   prune: true
   wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: ingress
+  name: monitoring-kubernetes-dashboard
   namespace: flux-infrastructure
 spec:
   interval: 5m
-  dependsOn:
-    - name: networking
-      namespace: flux-infrastructure
-    - name: monitoring
-      namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
     name: loom-infra
-  path: ./infrastructure/ingress
+  path: ./infrastructure/monitoring/kubernetes-dashboard
   prune: true
   wait: true

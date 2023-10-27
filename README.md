@@ -100,6 +100,7 @@ Because Flux sets up the whole infrastructure, the pods in the `flux-system` nam
 The individual components and technologies used are described in the respective README files.
 
 - Networking
+- Utilities
 - Storage
 - Monitoring
 - Ingress
