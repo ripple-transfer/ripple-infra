@@ -18,4 +18,4 @@ spec:
     auth:
       existingSecret: minio-root
     # TODO: create buckets at the place of usage
-    defaultBuckets: "tempo-traces;loki-chunks;loki-ruler;loki-admin"
+    defaultBuckets: "tempo-traces;loki-chunks;loki-ruler;loki-admin;mimir-rules;mimir-blocks"

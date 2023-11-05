@@ -4,7 +4,7 @@ metadata:
     name: minio-root
     annotations:
         reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-        reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "grafana,s3-operator"
+        reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "grafana,mimir"
         reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
 data:
     root-user: ENC[AES256_GCM,data:otHBGjz2CjI=,iv:RcU627Tc/mb79CuL9jm4l2KFP48vWtFLUDVO+yD51yA=,tag:Ll2DbkuYOqEziPQ0APz13g==,type:str]

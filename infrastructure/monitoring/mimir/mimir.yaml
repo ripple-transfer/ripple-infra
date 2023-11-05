@@ -1,0 +1,63 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mimir
+  namespace: mimir
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: mimir-distributed
+      version: "5.x"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: mimir
+      interval: 12h
+  values:
+    minio:
+      enabled: false
+    mimir:
+      structuredConfig:
+        alertmanager_storage:
+          s3:
+            bucket_name: mimir-ruler
+            endpoint: "minio.minio:9000"
+            insecure: true
+        blocks_storage:
+          backend: s3
+          s3:
+            bucket_name: mimir-blocks
+            endpoint: "minio.minio:9000"
+            insecure: true
+        ruler_storage:
+          s3:
+            bucket_name: mimir-ruler
+            endpoint: "minio.minio:9000"
+            insecure: true
+  valuesFrom:
+    - kind: Secret
+      name: minio-root
+      valuesKey: root-user
+      targetPath: mimir.structuredConfig.alertmanager_storage.s3.access_key_id
+    - kind: Secret
+      name: minio-root
+      valuesKey: root-password
+      targetPath: mimir.structuredConfig.alertmanager_storage.s3.secret_access_key
+    - kind: Secret
+      name: minio-root
+      valuesKey: root-user
+      targetPath: mimir.structuredConfig.blocks_storage.s3.access_key_id
+    - kind: Secret
+      name: minio-root
+      valuesKey: root-password
+      targetPath: mimir.structuredConfig.blocks_storage.s3.secret_access_key
+    - kind: Secret
+      name: minio-root
+      valuesKey: root-user
+      targetPath: mimir.structuredConfig.ruler_storage.s3.access_key_id
+    - kind: Secret
+      name: minio-root
+      valuesKey: root-password
+      targetPath: mimir.structuredConfig.ruler_storage.s3.secret_access_key

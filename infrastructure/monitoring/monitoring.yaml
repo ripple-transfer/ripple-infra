@@ -2,10 +2,41 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: monitoring-grafana
+  namespace: flux-infrastructure
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: loom-infra
+  path: ./infrastructure/monitoring/grafana
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: monitoring-mimir
+  namespace: flux-infrastructure
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: loom-infra
+  path: ./infrastructure/monitoring/mimir
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: monitoring-linkerd-viz
   namespace: flux-infrastructure
 spec:
   interval: 5m
+  dependsOn:
+    - name: monitoring-grafana
+      namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
     name: loom-infra
@@ -20,24 +51,13 @@ metadata:
   namespace: flux-infrastructure
 spec:
   interval: 5m
+  dependsOn:
+    - name: monitoring-grafana
+      namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
     name: loom-infra
   path: ./infrastructure/monitoring/linkerd-jaeger
-  prune: true
-  wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: monitoring-grafana
-  namespace: flux-infrastructure
-spec:
-  interval: 5m
-  sourceRef:
-    kind: GitRepository
-    name: loom-infra
-  path: ./infrastructure/monitoring/grafana
   prune: true
   wait: true
 ---
