@@ -2,8 +2,4 @@ hubble:
   tls:
     auto:
       enabled: true
-      method: certmanager
-      certManagerIssuerRef:
-        name: cilium-trust-anchor
-        group: cert-manager.io
-        kind: Issuer
+      method: cronJob

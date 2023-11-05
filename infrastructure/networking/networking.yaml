@@ -16,30 +16,10 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: networking-cilium-base
-  namespace: flux-infrastructure
-spec:
-  interval: 5m
-  dependsOn:
-    - name: networking-cert-manager
-      namespace: flux-infrastructure
-  sourceRef:
-    kind: GitRepository
-    name: loom-infra
-  path: ./infrastructure/networking/cilium-base
-  prune: true
-  wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: networking-cilium
   namespace: flux-infrastructure
 spec:
   interval: 5m
-  dependsOn:
-    - name: networking-cilium-base
-      namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
     name: loom-infra
@@ -56,6 +36,8 @@ spec:
   interval: 5m
   dependsOn:
     - name: networking-cilium
+      namespace: flux-infrastructure
+    - name: networking-cert-manager
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
