@@ -16,8 +16,18 @@ spec:
         namespace: mimir
       interval: 12h
   values:
+    # Hassle: the default (and now deprecated) setup using nginx does not work properly with
+    # linkerd-viz's remote write for some reason. Using the gateway does
+    gateway:
+      enabledNonEnterprise: true
+    nginx:
+      enabled: false
     minio:
       enabled: false
+    distributor:
+      extraArgs:
+        # Hassle: linkerd sends series with 31 labels which is just 1 higher than the default 30
+        validation.max-label-names-per-series: 40
     mimir:
       structuredConfig:
         alertmanager_storage:

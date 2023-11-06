@@ -42,11 +42,11 @@ spec:
       datasources.yaml:
         apiVersion: 1
         datasources:
-          - name: prometheus
+          - name: mimir
             type: prometheus
-            uid: prometheus
+            uid: mimir
             access: proxy
-            url: http://prometheus.linkerd-viz.svc.cluster.local:9090
+            url: http://mimir-gateway.mimir.svc.cluster.local:80/prometheus
             # Hassle: You should not define multiple `isDefault` data sources.
             # This might be self-explanatory, but combined with automatic Flux deployments, it's not
             # very easy to debug
@@ -92,72 +92,72 @@ spec:
         top-line:
           gnetId: 15474
           revision: 4
-          datasource: prometheus
+          datasource: mimir
         health:
           gnetId: 15486
           revision: 3
-          datasource: prometheus
+          datasource: mimir
         kubernetes:
           gnetId: 15479
           revision: 2
-          datasource: prometheus
+          datasource: mimir
         namespace:
           gnetId: 15478
           revision: 3
-          datasource: prometheus
+          datasource: mimir
         deployment:
           gnetId: 15475
           revision: 6
-          datasource: prometheus
+          datasource: mimir
         pod:
           gnetId: 15477
           revision: 3
-          datasource: prometheus
+          datasource: mimir
         service:
           gnetId: 15480
           revision: 3
-          datasource: prometheus
+          datasource: mimir
         route:
           gnetId: 15481
           revision: 3
-          datasource: prometheus
+          datasource: mimir
         authority:
           gnetId: 15482
           revision: 3
-          datasource: prometheus
+          datasource: mimir
         cronjob:
           gnetId: 15483
           revision: 3
-          datasource: prometheus
+          datasource: mimir
         job:
           gnetId: 15487
           revision: 3
-          datasource: prometheus
+          datasource: mimir
         daemonset:
           gnetId: 15484
           revision: 3
-          datasource: prometheus
+          datasource: mimir
         replicaset:
           gnetId: 15491
           revision: 3
-          datasource: prometheus
+          datasource: mimir
         statefulset:
           gnetId: 15493
           revision: 3
-          datasource: prometheus
+          datasource: mimir
         replicationcontroller:
           gnetId: 15492
           revision: 4
-          datasource: prometheus
+          datasource: mimir
         prometheus:
           gnetId: 15489
           revision: 2
-          datasource: prometheus
+          datasource: mimir
         prometheus-benchmark:
           gnetId: 15490
           revision: 2
-          datasource: prometheus
+          datasource: mimir
         multicluster:
           gnetId: 15488
           revision: 3
-          datasource: prometheus
+          datasource: mimir

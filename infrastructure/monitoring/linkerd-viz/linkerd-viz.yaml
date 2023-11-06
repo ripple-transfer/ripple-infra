@@ -22,5 +22,7 @@ spec:
       externalUrl: https://grafana.loom-lang.dev/
     prometheus:
       enabled: true
+      remoteWrite:
+        - url: http://mimir-gateway.mimir.svc.cluster.local:80/api/v1/push
     # TODO: Is there a way to link Tempo here instead?
     jaegerUrl: jaeger.linkerd-jaeger:16686
