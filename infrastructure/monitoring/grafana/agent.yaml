@@ -1,0 +1,145 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: grafana-agent
+  namespace: grafana
+spec:
+  interval: 30m
+  dependsOn:
+    - name: grafana-loki
+      namespace: grafana
+  chart:
+    spec:
+      chart: grafana-agent
+      version: "0.27.x"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: grafana
+      interval: 12h
+  values:
+    agent:
+      mode: flow
+      mounts:
+        varlog: true
+      configMap:
+        create: true
+        content: |
+          logging {
+            level = "info"
+            format = "logfmt"
+          }
+
+          // endpoints
+
+          prometheus.remote_write "default" {
+            endpoint {
+              url = "http://mimir-gateway.mimir.svc.cluster.local:80/api/v1/push"
+            }
+          }
+
+          loki.write "local" {
+            endpoint {
+              url = "http://loki-gateway.grafana.svc.cluster.local/loki/api/v1/push"
+            }
+          }
+
+          // discovery rules
+          discovery.kubernetes "pods" {
+            role = "pod"
+          }
+
+          discovery.kubernetes "services" {
+            role = "service"
+          }
+
+          discovery.kubernetes "endpoints" {
+            role = "endpoints"
+          }
+
+          discovery.kubernetes "endpointslices" {
+            role = "endpointslice"
+          }
+
+          discovery.kubernetes "ingresses" {
+            role = "ingress"
+          }
+
+          discovery.kubernetes "nodes" {
+            role = "node"
+          }
+
+          // Loki rules
+          discovery.relabel "logs" {
+            targets = discovery.kubernetes.pods.targets
+
+            rule {
+              source_labels = ["__meta_kubernetes_namespace"]
+              target_label  = "namespace"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_container_name"]
+              target_label  = "container"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_name"]
+              target_label  = "pod"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_node_name"]
+              action = "keep"
+              regex = env("HOSTNAME")
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_namespace"]
+              action = "drop"
+              regex = "grafana-agent"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_uid", "__meta_kubernetes_pod_container_name"]
+              target_label  = "__path__"
+              separator     = "/"
+              replacement   = "/var/log/pods/*$1/*.log"
+            }
+          }
+
+          local.file_match "logs" {
+            path_targets = discovery.relabel.logs.output
+          }
+
+          loki.source.file "pods" {
+            targets    = local.file_match.logs.targets
+            forward_to = [loki.process.logs.receiver]
+          }
+
+          loki.process "logs" {
+            stage.cri {}
+            forward_to = [loki.write.local.receiver]
+          }
+
+          loki.source.kubernetes_events "events" {
+            log_format = "json"
+            forward_to = [loki.write.local.receiver]
+          }
+
+          // Prometheus scrape config
+
+          prometheus.operator.servicemonitors "services" {
+            forward_to = [prometheus.remote_write.default.receiver]
+          }
+
+          prometheus.scrape "pods" {
+            targets    = discovery.kubernetes.pods.targets
+            forward_to = [prometheus.remote_write.default.receiver]
+          }
+
+          prometheus.scrape "services" {
+            targets    = discovery.kubernetes.services.targets
+            forward_to = [prometheus.remote_write.default.receiver]
+          }

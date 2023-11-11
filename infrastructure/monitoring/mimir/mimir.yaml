@@ -28,6 +28,9 @@ spec:
       extraArgs:
         # Hassle: linkerd sends series with 31 labels which is just 1 higher than the default 30
         validation.max-label-names-per-series: 40
+    runtimeConfig:
+      ingester_limits:
+        max_series: 1000000
     mimir:
       structuredConfig:
         alertmanager_storage:

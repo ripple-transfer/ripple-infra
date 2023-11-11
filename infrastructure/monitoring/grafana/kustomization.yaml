@@ -5,9 +5,9 @@ namespace: grafana
 configurations:
   - kustomizeconfig.yaml
 resources:
+  - agent.yaml
   - namespace.yaml
   - grafana.yaml
   - loki.yaml
-  - promtail.yaml
   - repository.yaml
   - tempo.yaml
