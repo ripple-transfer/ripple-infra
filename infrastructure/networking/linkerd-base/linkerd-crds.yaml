@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: linkerd-crds
-      version: "1.x"
+      version: "1.x-edge"
       sourceRef:
         kind: HelmRepository
         name: linkerd

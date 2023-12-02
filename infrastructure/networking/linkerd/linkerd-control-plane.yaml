@@ -14,7 +14,7 @@ spec:
   chart:
     spec:
       chart: linkerd-control-plane
-      version: "1.x"
+      version: "1.x-edge"
       sourceRef:
         kind: HelmRepository
         name: linkerd
@@ -23,6 +23,8 @@ spec:
     identity:
       issuer:
         scheme: "kubernetes.io/tls"
+    proxy:
+      nativeSidecar: true
   valuesFrom:
     - kind: Secret
       name: linkerd-trust-anchor

@@ -12,7 +12,7 @@ spec:
   chart:
     spec:
       chart: grafana-agent
-      version: "0.27.x"
+      version: "0.29.x"
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -141,5 +141,68 @@ spec:
 
           prometheus.scrape "services" {
             targets    = discovery.kubernetes.services.targets
+            forward_to = [prometheus.remote_write.default.receiver]
+          }
+
+          prometheus.scrape "cadvisor" {
+            scheme = "https"
+            tls_config {
+                server_name = "kubernetes"
+                ca_file = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+                insecure_skip_verify = false
+            }
+            bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+            targets = discovery.relabel.metrics_cadvisor.output
+            scrape_interval = "60s"
+            forward_to = [prometheus.remote_write.default.receiver]
+          }
+
+          discovery.relabel "metrics_cadvisor" {
+            targets = discovery.kubernetes.nodes.targets
+
+            rule {
+              action = "replace"
+              target_label = "__address__"
+              replacement = "kubernetes.default.svc.cluster.local:443"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_node_name"]
+              regex = "(.+)"
+              action = "replace"
+              replacement = "/api/v1/nodes/$${1}/proxy/metrics/cadvisor"
+              target_label = "__metrics_path__"
+            }
+          }
+
+          // kubelet
+          discovery.relabel "metrics_kubelet" {
+            targets = discovery.kubernetes.nodes.targets
+
+            rule {
+              action = "replace"
+              target_label = "__address__"
+              replacement = "kubernetes.default.svc.cluster.local:443"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_node_name"]
+              regex = "(.+)"
+              action = "replace"
+              replacement = "/api/v1/nodes/$${1}/proxy/metrics"
+              target_label = "__metrics_path__"
+            }
+          }
+
+          prometheus.scrape "kubelet" {
+            scheme = "https"
+            tls_config {
+                server_name = "kubernetes"
+                ca_file = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+                insecure_skip_verify = false
+            }
+            bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+            targets = discovery.relabel.metrics_kubelet.output
+            scrape_interval = "60s"
             forward_to = [prometheus.remote_write.default.receiver]
           }

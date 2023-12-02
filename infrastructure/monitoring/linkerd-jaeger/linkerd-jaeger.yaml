@@ -10,7 +10,7 @@ spec:
   releaseName: linkerd-jaeger
   chart:
     spec:
-      version: "30.x"
+      version: "30.x-edge"
       chart: linkerd-jaeger
       sourceRef:
         kind: HelmRepository
