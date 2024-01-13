@@ -13,12 +13,20 @@ patches:
       - op: add
         path: /spec/template/spec/containers/0/args/-
         value: --requeue-dependency=5s
+    target:
+      kind: Deployment
+      name: "(kustomize-controller|helm-controller|source-controller)"
+  - patch: |
       - op: replace
         path: /spec/template/spec/volumes/0
         value:
           name: temp
           emptyDir:
             medium: Memory
+    target:
+      kind: Deployment
+      name: kustomize-controller
+  - patch: |
       - op: add
         path: /spec/template/spec/containers/0/args/-
         value: --helm-cache-max-size=10
@@ -30,7 +38,7 @@ patches:
         value: --helm-cache-purge-interval=5m
     target:
       kind: Deployment
-      name: "(kustomize-controller|helm-controller|source-controller)"
+      name: source-controller
   - patch: |-
       - op: add
         path: /metadata/annotations/linkerd.io~1inject
