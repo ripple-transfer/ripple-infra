@@ -6,6 +6,7 @@ metadata:
   namespace: grafana
 spec:
   interval: 30m
+  timeout: 15m
   targetNamespace: grafana
   releaseName: grafana
   driftDetection:

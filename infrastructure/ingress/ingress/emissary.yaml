@@ -6,6 +6,7 @@ metadata:
   namespace: ingress
 spec:
   interval: 30m
+  timeout: 10m
   targetNamespace: ingress
   releaseName: emissary-ingress
   driftDetection:
@@ -44,7 +45,7 @@ spec:
           - target:
               kind: Service
               name: emissary-ingress
-            patch:
+            patch: |
               - op: add
                 path: /metadata/labels/ripple-transfer.announce
                 value: l2

@@ -37,6 +37,7 @@ metadata:
   namespace: flux-infrastructure
 spec:
   interval: 5m
+  timeout: 10m
   dependsOn:
     - name: ingress-ingress-config
       namespace: flux-infrastructure
