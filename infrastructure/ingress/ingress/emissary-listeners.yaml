@@ -18,8 +18,8 @@ metadata:
   name: https-host
   namespace: ingress
 spec:
-  hostname: "*.loom-lang.dev"
+  hostname: "*.ripple-transfer.dev"
   acmeProvider:
     authority: none
   tlsSecret:
-    name: loom-lang-dev-tls
+    name: ripple-transfer-dev-tls

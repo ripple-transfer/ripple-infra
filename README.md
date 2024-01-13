@@ -1,6 +1,6 @@
 # Description
 
-This repository contains the main infrastructure used by the very impractival VM for the Loom toy programming language. It bootstraps the entire Kubernetes cluster then keeps it up to date via Flux, using a GitOps workflow.
+Ripple is a toy implementation emulating the functionality of Wise, without the actual integration with the financial system. This repository contains the infrastructure, in which the whole project is going to run.
 
 # Requirements
 
@@ -52,7 +52,7 @@ sops -e cloudflare-api-key.yaml | tee access-key.enc.yaml
 
 ## Updating domain names
 
-The project is set up to use the `loom-lang.dev` domain name. To use a different one, you can just do a search & replace for the domain and replace it with your own.
+The project is set up to use the `ripple-transfer.dev` domain name. To use a different one, you can just do a search & replace for the domain and replace it with your own.
 
 To issue certificates for your own domain, make sure to update the ACME issuer under `infrastructure/ingress/letsencrypt-issuer.yaml` to use your own provider's DNS01 setup.
 
@@ -115,7 +115,7 @@ Search for `# Hassle` in the codebase to see the parts that were particularly an
 
 ### Access services
 
-To access services exposed by the ingress, you can set up `dnsmasq` on the host machine to resolve `*.loom-lang.dev` (or your equivalent) to the external IP address of the ingress `LoadBalancer`.
+To access services exposed by the ingress, you can set up `dnsmasq` on the host machine to resolve `*.ripple-transfer.dev` (or your equivalent) to the external IP address of the ingress `LoadBalancer`.
 
 You should have set the external IP of the load balancer in the preparation step, but if not you can find it with:
 
@@ -127,7 +127,7 @@ kubectl get svc -n ingress emissary-ingress  -ojson \
 Then, install `dnsmasq` and add a new configuration under `/etc/dnsmasq.d/dev-domains.conf`:
 
 ```conf
-address=/loom-lang.dev/<external IP>
+address=/ripple-transfer.dev/<external IP>
 ```
 
 #### WSL Proxying
@@ -158,12 +158,12 @@ wsl hostname -I | select { $_.split()[0] }
 Then edit `%SystemRoot%\System32\drivers\etc\hosts`:
 
 ```
-<WSL IP address> gitops.loom-lang.dev
-<WSL IP address> k8s.loom-lang.dev
-<WSL IP address> linkerd.loom-lang.dev
-<WSL IP address> grafana.loom-lang.dev
-<WSL IP address> minio.loom-lang.dev
-<WSL IP address> hubble.loom-lang.dev
+<WSL IP address> gitops.ripple-transfer.dev
+<WSL IP address> k8s.ripple-transfer.dev
+<WSL IP address> linkerd.ripple-transfer.dev
+<WSL IP address> grafana.ripple-transfer.dev
+<WSL IP address> minio.ripple-transfer.dev
+<WSL IP address> hubble.ripple-transfer.dev
 ```
 
 

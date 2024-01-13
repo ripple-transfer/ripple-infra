@@ -8,7 +8,7 @@ spec:
   interval: 5m
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/monitoring/grafana
   prune: true
   wait: true
@@ -22,7 +22,7 @@ spec:
   interval: 5m
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/monitoring/mimir
   prune: true
   wait: true
@@ -39,7 +39,7 @@ spec:
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/monitoring/linkerd-viz
   prune: true
   wait: true
@@ -57,7 +57,7 @@ spec:
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/monitoring/linkerd-jaeger
   prune: true
   wait: true
@@ -71,7 +71,7 @@ spec:
   interval: 5m
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/monitoring/weave-gitops
   prune: true
   wait: true
@@ -85,7 +85,7 @@ spec:
   interval: 5m
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/monitoring/kubernetes-dashboard
   prune: true
   wait: true

@@ -8,7 +8,7 @@ spec:
   interval: 5m
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/ingress/ingress-base
   prune: true
   wait: true
@@ -25,7 +25,7 @@ spec:
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/ingress/ingress-config
   prune: true
   wait: true
@@ -42,7 +42,7 @@ spec:
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/ingress/ingress
   prune: true
   wait: true

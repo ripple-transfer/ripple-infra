@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: linkerd-smi
@@ -8,6 +8,8 @@ spec:
   interval: 30m
   targetNamespace: linkerd-smi
   releaseName: linkerd-smi
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       version: "1.x"

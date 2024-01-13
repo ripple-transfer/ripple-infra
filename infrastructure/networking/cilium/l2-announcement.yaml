@@ -7,7 +7,7 @@ spec:
     matchLabels:
       # Hassle: Specifying a custom label for the announced services makes sense, otherwise we get
       # way too many leases. This way, we can restrict L2 announcements to the ingresses and gateways
-      loom-lang.announce: l2
+      ripple-transfer.announce: l2
   nodeSelector:
     matchExpressions:
       - key: node-role.kubernetes.io/control-plane

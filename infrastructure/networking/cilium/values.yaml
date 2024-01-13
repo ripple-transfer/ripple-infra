@@ -18,5 +18,5 @@ hubble:
     enabled: true
 
 kubeProxyReplacement: true
-k8sServiceHost: loom-dev-control-plane
+k8sServiceHost: ripple-dev-control-plane
 k8sServicePort: 6443

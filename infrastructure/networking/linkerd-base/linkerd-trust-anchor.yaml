@@ -18,7 +18,7 @@ spec:
     kind: ClusterIssuer
   subject:
     organizations:
-      - Loom
+      - Ripple
     organizationalUnits:
       - linkerd
 ---

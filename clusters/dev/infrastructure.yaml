@@ -8,7 +8,7 @@ spec:
   interval: 5m
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/networking
   prune: true
   wait: true
@@ -25,7 +25,7 @@ spec:
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/utilities
   prune: true
   wait: true
@@ -44,7 +44,7 @@ spec:
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/storage
   prune: true
   wait: true
@@ -65,7 +65,7 @@ spec:
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/monitoring
   prune: true
   wait: true
@@ -84,7 +84,7 @@ spec:
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/ingress
   prune: true
   wait: true

@@ -13,7 +13,7 @@ helm install cilium cilium/cilium --namespace kube-system -f ./infrastructure/ne
 cilium status --wait
 
 # Now, we can bootstrap Flux
-flux bootstrap github --token-auth --owner=loom-lang --repository=loom-infra --branch master --path=clusters/dev
+flux bootstrap github --token-auth --owner=ripple-transfer --repository=ripple-infra --branch master --path=clusters/dev
 
 # And create the age secret so Flux can use it to decrypt encrypted YAML files. This is done after Flux,
 # because the flux's namespace is only created in the previous step

@@ -8,7 +8,7 @@ spec:
   interval: 5m
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/storage/minio
   prune: true
   wait: true

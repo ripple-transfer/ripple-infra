@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: loom-lang-dev
+  name: ripple-transfer-dev
   namespace: ingress
 spec:
-  secretName: loom-lang-dev-tls
+  secretName: ripple-transfer-dev-tls
   issuerRef:
     name: letsencrypt
   dnsNames:
-    - "*.loom-lang.dev"
+    - "*.ripple-transfer.dev"
   privateKey:
     rotationPolicy: Always

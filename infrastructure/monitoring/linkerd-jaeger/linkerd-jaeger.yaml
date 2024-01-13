@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: linkerd-jaeger
@@ -8,6 +8,8 @@ spec:
   interval: 30m
   targetNamespace: linkerd-jaeger
   releaseName: linkerd-jaeger
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       version: "30.x-edge"

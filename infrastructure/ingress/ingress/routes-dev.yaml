@@ -8,7 +8,7 @@ metadata:
   name: weave-gitops-dashboard
   namespace: ingress
 spec:
-  hostname: "gitops.loom-lang.dev"
+  hostname: "gitops.ripple-transfer.dev"
   prefix: /
   service: weave-gitops-dashboard.flux-system:9001
 ---
@@ -18,7 +18,7 @@ metadata:
   name: kubernetes-dashboard
   namespace: ingress
 spec:
-  hostname: "k8s.loom-lang.dev"
+  hostname: "k8s.ripple-transfer.dev"
   prefix: /
   service: kubernetes-dashboard.kubernetes-dashboard:9090
 ---
@@ -28,7 +28,7 @@ metadata:
   name: linkerd-dashboard
   namespace: ingress
 spec:
-  hostname: "linkerd.loom-lang.dev"
+  hostname: "linkerd.ripple-transfer.dev"
   prefix: /
   # By default, linkerd does not want us to expose its dashboard, so we rewrite it
   # See: https://linkerd.io/2.14/tasks/exposing-dashboard/
@@ -41,7 +41,7 @@ metadata:
   name: grafana-dashboard
   namespace: ingress
 spec:
-  hostname: "grafana.loom-lang.dev"
+  hostname: "grafana.ripple-transfer.dev"
   prefix: /
   service: grafana.grafana:3000
 ---
@@ -51,7 +51,7 @@ metadata:
   name: minio
   namespace: ingress
 spec:
-  hostname: "minio.loom-lang.dev"
+  hostname: "minio.ripple-transfer.dev"
   prefix: /
   service: minio.minio:9001
 ---
@@ -61,7 +61,7 @@ metadata:
   name: hubble-api
   namespace: ingress
 spec:
-  hostname: "hubble.loom-lang.dev"
+  hostname: "hubble.ripple-transfer.dev"
   prefix: /api/
   rewrite: /api/
   # Hassle: Hubble UI is using HTTP streaming to get network flow updates to the UI.
@@ -76,6 +76,6 @@ metadata:
   name: hubble
   namespace: ingress
 spec:
-  hostname: "hubble.loom-lang.dev"
+  hostname: "hubble.ripple-transfer.dev"
   prefix: /
   service: hubble-ui.kube-system:80

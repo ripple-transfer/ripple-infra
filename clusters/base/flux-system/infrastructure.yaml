@@ -9,10 +9,10 @@ metadata:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
-  name: loom-infra
+  name: ripple-infra
   namespace: flux-infrastructure
 spec:
   interval: 1m0s
   ref:
     branch: master
-  url: https://github.com/loom-lang/loom-infra.git
+  url: https://github.com/ripple-transfer/ripple-infra.git

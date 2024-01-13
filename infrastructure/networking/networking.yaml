@@ -8,7 +8,7 @@ spec:
   interval: 5m
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/networking/cert-manager
   prune: true
   wait: true
@@ -22,7 +22,7 @@ spec:
   interval: 5m
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/networking/cilium
   prune: true
   wait: true
@@ -41,7 +41,7 @@ spec:
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/networking/linkerd-base
   prune: true
   wait: true
@@ -58,7 +58,7 @@ spec:
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/networking/linkerd
   prune: true
   wait: true
@@ -75,7 +75,7 @@ spec:
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
-    name: loom-infra
+    name: ripple-infra
   path: ./infrastructure/networking/linkerd-smi
   prune: true
   wait: true
