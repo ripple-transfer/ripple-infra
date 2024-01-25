@@ -16,6 +16,20 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: networking-gateway-api
+  namespace: flux-infrastructure
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: ripple-infra
+  path: ./infrastructure/networking/gateway-api
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: networking-cilium
   namespace: flux-infrastructure
 spec:
@@ -23,6 +37,11 @@ spec:
   sourceRef:
     kind: GitRepository
     name: ripple-infra
+  dependsOn:
+    - name: networking-cert-manager
+      namespace: flux-infrastructure
+    - name: networking-gateway-api
+      namespace: flux-infrastructure
   path: ./infrastructure/networking/cilium
   prune: true
   wait: true

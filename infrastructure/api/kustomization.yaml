@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: flux-infrastructure
 
 resources:
-  - ingress.yaml
+  - api.yaml

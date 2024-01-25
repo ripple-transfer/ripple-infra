@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Secret
 metadata:
     name: cloudflare-api-key-secret
-    namespace: ingress
+    namespace: api-gateway
 data:
     api-key: ENC[AES256_GCM,data:X/XoCFQUrUJocJinKJTNqYNJWc+8GOi6KMDSYyiajBUoNZMdlDmHQNBaSBOfA7v2qpKHjG3q4Ks=,iv:xh1b5LhC0Xotb8DAu/z01Txi4PXM01N/7Vr0E3oHAsY=,tag:5X4Vk6KsOu1cuyXtkND6sQ==,type:str]
 sops:

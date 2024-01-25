@@ -1,9 +1,8 @@
 apiVersion: "cilium.io/v2alpha1"
 kind: CiliumLoadBalancerIPPool
 metadata:
-  name: "lb-ip-pool"
+  name: lb-ip-pool
   namespace: kube-system
 spec:
   cidrs:
-    # This should be from the same subclass as the kind network
     - cidr: "192.168.0.0/26"

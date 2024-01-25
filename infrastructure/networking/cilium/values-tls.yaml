@@ -3,3 +3,5 @@ hubble:
     auto:
       enabled: true
       method: cronJob
+gatewayAPI:
+  enabled: true

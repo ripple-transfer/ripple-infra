@@ -42,5 +42,3 @@ spec:
       create: true
       passwordHash: $2a$10$rwq9esKA/Nurjn07rutwFOXrtlhRbp.npDqMvflOdN3gB6LkjvHmW
       username: admin
-    podAnnotations:
-      linkerd.io/inject: enabled

@@ -6,3 +6,4 @@
 - generate GitOps secret
 - Use Pixie for observability
 - Use Cilium Service Mesh
+- Use cert-manager for Cilium
