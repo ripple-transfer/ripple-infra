@@ -16,52 +16,12 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: utilities
-  namespace: flux-infrastructure
-spec:
-  interval: 5m
-  dependsOn:
-    - name: networking
-      namespace: flux-infrastructure
-  sourceRef:
-    kind: GitRepository
-    name: ripple-infra
-  path: ./infrastructure/utilities
-  prune: true
-  wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: storage
-  namespace: flux-infrastructure
-spec:
-  interval: 5m
-  dependsOn:
-    - name: networking
-      namespace: flux-infrastructure
-    - name: utilities
-      namespace: flux-infrastructure
-  sourceRef:
-    kind: GitRepository
-    name: ripple-infra
-  path: ./infrastructure/storage
-  prune: true
-  wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: monitoring
   namespace: flux-infrastructure
 spec:
   interval: 5m
   dependsOn:
     - name: networking
-      namespace: flux-infrastructure
-    - name: utilities
-      namespace: flux-infrastructure
-    - name: storage
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository

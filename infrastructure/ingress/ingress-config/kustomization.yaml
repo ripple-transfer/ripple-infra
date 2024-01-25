@@ -4,4 +4,3 @@ namespace: ingress
 
 resources:
   - emissary-module.yaml
-  - emissary-tracing.yaml

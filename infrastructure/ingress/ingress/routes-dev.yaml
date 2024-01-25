@@ -15,49 +15,6 @@ spec:
 apiVersion: getambassador.io/v3alpha1
 kind: Mapping
 metadata:
-  name: kubernetes-dashboard
-  namespace: ingress
-spec:
-  hostname: "k8s.ripple-transfer.dev"
-  prefix: /
-  service: kubernetes-dashboard.kubernetes-dashboard:9090
----
-apiVersion: getambassador.io/v3alpha1
-kind: Mapping
-metadata:
-  name: linkerd-dashboard
-  namespace: ingress
-spec:
-  hostname: "linkerd.ripple-transfer.dev"
-  prefix: /
-  # By default, linkerd does not want us to expose its dashboard, so we rewrite it
-  # See: https://linkerd.io/2.14/tasks/exposing-dashboard/
-  host_rewrite: web.linkerd-viz.svc.cluster.local:8084
-  service: web.linkerd-viz:8084
----
-apiVersion: getambassador.io/v3alpha1
-kind: Mapping
-metadata:
-  name: grafana-dashboard
-  namespace: ingress
-spec:
-  hostname: "grafana.ripple-transfer.dev"
-  prefix: /
-  service: grafana.grafana:3000
----
-apiVersion: getambassador.io/v3alpha1
-kind: Mapping
-metadata:
-  name: minio
-  namespace: ingress
-spec:
-  hostname: "minio.ripple-transfer.dev"
-  prefix: /
-  service: minio.minio:9001
----
-apiVersion: getambassador.io/v3alpha1
-kind: Mapping
-metadata:
   name: hubble-api
   namespace: ingress
 spec:

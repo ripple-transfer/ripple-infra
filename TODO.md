@@ -4,3 +4,5 @@
 - Split Grafana/Agent/Tempo/Loki into separate namespaces
 - Set up Kafka using Strimzi (with KRaft)
 - generate GitOps secret
+- Use Pixie for observability
+- Use Cilium Service Mesh

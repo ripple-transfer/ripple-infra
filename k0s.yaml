@@ -1,0 +1,25 @@
+apiVersion: k0s.k0sproject.io/v1beta1
+kind: ClusterConfig
+metadata:
+  name: ripple
+spec:
+  api:
+    address: 172.28.36.212
+    sans:
+      - 172.28.36.212
+      - 172.19.0.1
+      - 172.18.0.1
+      - 172.17.0.1
+      - fe80::215:5dff:fe4f:698
+      - fe80::42:43ff:fee9:b321
+      - fc00:f853:ccd:e793::1
+      - fe80::1
+  extensions:
+    storage:
+      type: openebs_local_storage
+  network:
+    provider: custom
+    kubeProxy:
+      disabled: true
+  telemetry:
+    enabled: false

@@ -7,6 +7,5 @@ metadata:
 spec:
   config:
     envoy_log_type: json
-    add_linkerd_headers: true
     diagnostics:
       enabled: false

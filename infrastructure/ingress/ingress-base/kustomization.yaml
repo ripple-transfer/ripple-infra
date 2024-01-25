@@ -9,13 +9,6 @@ patches:
   # Linkerd annotations and since we'd like to have an `ingress` namespace instead of the default
   # `emissary-system` one, we'll also patch the name.
   - patch: |-
-      - op: add
-        path: /metadata/annotations/linkerd.io~1inject
-        value: enabled
-    target:
-      kind: Namespace
-      name: emissary-system
-  - patch: |-
       - op: replace
         path: /metadata/name
         value: ingress
