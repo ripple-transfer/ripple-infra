@@ -38,4 +38,4 @@ flux bootstrap github --token-auth --owner=ripple-transfer --repository=ripple-i
 
 # And create the age secret so Flux can use it to decrypt encrypted YAML files. This is done after Flux,
 # because the flux's namespace is only created in the previous step
-cat ./.cert/age.agekey | k0s kubectl create secret generic sops-age --namespace flux-infrastructure --from-file=age.agekey=/dev/stdin
+cat ./.cert/age.agekey | kubectl create secret generic sops-age --namespace flux-infrastructure --from-file=age.agekey=/dev/stdin
