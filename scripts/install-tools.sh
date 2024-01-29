@@ -36,3 +36,6 @@ rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 
 # k0s
 curl -sSLf https://get.k0s.sh | sudo sh
+
+# Install Pixie.dev
+bash -c "$(curl -fsSL https://work.withpixie.ai/install.sh)"
