@@ -17,9 +17,7 @@ spec:
       tls:
         mode: Terminate
         certificateRefs:
-          - kind: Secret
-            name: ripple-transfer-dev-tls
-            group: core
+          - name: ripple-transfer-dev-tls
   infrastructure:
     annotations:
       io.cilium/lb-ipam-ips: "192.168.0.50"
