@@ -24,6 +24,9 @@ until sudo k0s status; do echo "Waiting for k0s to become ready..."; sleep 2; do
 # Set up config file for KUBECONFIG env variable
 sudo k0s kubeconfig admin >| ~/kubernetes.conf
 
+# Install Gateway API CRDs before Cilium, so we can immediately enable the Gateway API
+kubectl apply -k ./infrastructure/networking/gateway-api
+
 # Install Cilium, so we have a CNI in the cluster. We use the same values file that will
 # be loaded by Flux, so we can transfer ownership of this installation once Flux is bootstrapped
 helm repo add cilium https://helm.cilium.io/

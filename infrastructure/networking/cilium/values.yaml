@@ -17,6 +17,8 @@ hubble:
 loadBalancer:
   l7:
     backend: envoy
+gatewayAPI:
+  enabled: true
 
 kubeProxyReplacement: true
 k8sServiceHost: 172.28.36.212
