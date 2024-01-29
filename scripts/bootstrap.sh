@@ -22,7 +22,9 @@ sudo k0s start
 until sudo k0s status; do echo "Waiting for k0s to become ready..."; sleep 2; done
 
 # Set up config file for KUBECONFIG env variable
-sudo k0s kubeconfig admin >| ~/kubernetes.conf
+mkdir -p ~/.kube/
+sudo k0s kubeconfig admin >| ~/.kube/config
+chmod 600 ~/.kube/config
 
 # Install Gateway API CRDs before Cilium, so we can immediately enable the Gateway API
 kubectl apply -k ./infrastructure/networking/gateway-api
