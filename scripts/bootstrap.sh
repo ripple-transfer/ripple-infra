@@ -9,7 +9,7 @@ if sudo k0s status &> /dev/null; then
     echo "Stopping k0s..."
     sudo k0s stop
     echo "Resetting k0s..."
-    sudo k0s reset
+    sudo k0s reset -v
 else
     echo "k0s is not running. Skipping stop and reset."
 fi
