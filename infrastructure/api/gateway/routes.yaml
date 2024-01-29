@@ -30,3 +30,6 @@ spec:
         - name: hubble-ui
           namespace: kube-system
           port: 80
+      timeouts:
+        backendRequest: 3600s
+        request: 3600s
