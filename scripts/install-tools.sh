@@ -4,6 +4,11 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+echo "Installing kubectl"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin
+
 echo "Installing sops"
 SOPS_LATEST_VERSION=$(curl -Ls "https://api.github.com/repos/mozilla/sops/releases/latest" | grep -Po '"tag_name": "v\K[0-9.]+')
 echo "Latest version: ${SOPS_LATEST_VERSION}"
