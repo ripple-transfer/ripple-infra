@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - repository.yaml
   - cilium.yaml
+  - cilium-trust-anchor.yaml
   - l2-announcement.yaml
   - load-balancer-ips.yaml
   - hubble-grant.yaml

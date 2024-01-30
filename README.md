@@ -1,6 +1,6 @@
 # Description
 
-Ripple is a toy implementation emulating the functionality of Wise, without the actual integration with the financial system. This repository contains the infrastructure, in which the whole project is going to run.
+Ripple is a toy implementation emulating cross-border payments, without the actual integration with the financial system. This repository contains the infrastructure, in which the whole project is going to run.
 
 # Requirements
 

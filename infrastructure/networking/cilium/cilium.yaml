@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: cilium
-      version: "1.15.0-rc.1"
+      version: "1.15.x"
       sourceRef:
         kind: HelmRepository
         name: cilium
@@ -24,10 +24,10 @@ spec:
     # is complete. This allows us to install cert-manager before this step.
     - kind: ConfigMap
       name: cilium-values-tls
-  # Hassle: Patch Hubble UI so it can be exposed via the Gateway API
   postRenderers:
     - kustomize:
         patches:
+          # Hassle: Patch Hubble UI so it can be exposed via the Gateway API
           - target:
               kind: ConfigMap
               name: hubble-ui-nginx

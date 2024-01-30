@@ -1,3 +1,7 @@
+kubeProxyReplacement: true
+k8sServiceHost: 172.28.36.212
+k8sServicePort: 6443
+
 # Hassle: Limit operator replicas to 1 so it can run on a single-node cluster
 operator:
   replicas: 1
@@ -14,12 +18,15 @@ hubble:
     enabled: true
   ui:
     enabled: true
+    # Hassle: We need to patch Hubble UI's nginx config so it can be exposed via the Gateway API.
+    # make sure that the pods are automatically restarted when the config is updated
+    rollOutPods: true
 loadBalancer:
   l7:
     backend: envoy
 gatewayAPI:
   enabled: true
-
-kubeProxyReplacement: true
-k8sServiceHost: 172.28.36.212
-k8sServicePort: 6443
+routingMode: tunnel
+tunnelProtocl: geneve
+bandwidthManager:
+  enabled: true

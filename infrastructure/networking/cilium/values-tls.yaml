@@ -1,5 +1,11 @@
 hubble:
+  # Hassle: we have to upgrade Hubble's TLS configuration to use cert-manager after the initial Cilium and cert-manager
+  # setup is done, as described in: https://docs.cilium.io/en/latest/gettingstarted/hubble-configuration/
   tls:
     auto:
       enabled: true
-      method: cronJob
+      method: certmanager
+      certManagerIssuerRef:
+        name: cilium-trust-anchor
+        kind: Issuer
+        group: cert-manager.io
