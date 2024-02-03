@@ -18,13 +18,16 @@ hubble:
     # Hassle: We need to patch Hubble UI's nginx config so it can be exposed via the Gateway API.
     # make sure that the pods are automatically restarted when the config is updated
     rollOutPods: true
-socketLB:
-  # Hassle: This option is needed for some of the more advanced Linkerd features to work
-  # transparently with Cilium (EWMA load balancing, dynamic request routing).
-  # See: https://linkerd.io/2.14/reference/cluster-configuration/#cilium
-  hostNamespaceOnly: true
 routingMode: tunnel
-tunnelProtocl: geneve
-cni:
-  # Hassle: without this option set, Cilium would keep renaming Istio's CNI config
-  exclusive: false
+tunnelProtocol: geneve
+bandwidthManager:
+  enabled: true
+loadBalancer:
+  l7:
+    backend: envoy
+authentication:
+  mutual:
+    spire:
+      enabled: true
+      install:
+        enabled: true
