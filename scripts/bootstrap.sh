@@ -4,29 +4,11 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-# Setting up the single-node cluster
-if sudo k0s status &> /dev/null; then
-    echo "Stopping k0s..."
-    sudo k0s stop
-    echo "Resetting k0s..."
-    sudo k0s reset -v
-else
-    echo "k0s is not running. Skipping stop and reset."
-fi
+# Reset kind cluster
+kind delete cluster --name ripple
+kind create cluster --config kind-config.yaml
 
-echo "Installing and starting k0s..."
-sudo k0s install controller --single --config k0s.yaml
-sudo k0s start
-
-# Wait for k0s to become ready
-until sudo k0s status; do echo "Waiting for k0s to become ready..."; sleep 2; done
-
-# Set up config file for KUBECONFIG env variable
-mkdir -p ~/.kube/
-sudo k0s kubeconfig admin >| ~/.kube/config
-chmod 600 ~/.kube/config
-
-# Install Gateway API CRDs before Cilium, so we can immediately enable the Gateway API
+# Install Gateway API CRDs
 kubectl apply -k ./infrastructure/networking/gateway-api
 
 # Create the Cilium namespace

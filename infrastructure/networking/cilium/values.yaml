@@ -1,10 +1,7 @@
 kubeProxyReplacement: true
-k8sServiceHost: 172.28.36.212
+k8sServiceHost: ripple-control-plane
 k8sServicePort: 6443
 
-# Hassle: Limit operator replicas to 1 so it can run on a single-node cluster
-operator:
-  replicas: 1
 ipam:
   mode: kubernetes
 encryption:
@@ -22,6 +19,12 @@ hubble:
     # make sure that the pods are automatically restarted when the config is updated
     rollOutPods: true
 socketLB:
+  # Hassle: This option is needed for some of the more advanced Linkerd features to work
+  # transparently with Cilium (EWMA load balancing, dynamic request routing).
+  # See: https://linkerd.io/2.14/reference/cluster-configuration/#cilium
   hostNamespaceOnly: true
 routingMode: tunnel
 tunnelProtocl: geneve
+cni:
+  # Hassle: without this option set, Cilium would keep renaming Istio's CNI config
+  exclusive: false

@@ -5,4 +5,4 @@ metadata:
   namespace: cilium
 spec:
   cidrs:
-    - cidr: "192.168.0.0/26"
+    - cidr: "172.18.255.0/26"
