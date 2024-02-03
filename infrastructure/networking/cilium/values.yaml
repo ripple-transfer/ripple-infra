@@ -21,12 +21,7 @@ hubble:
     # Hassle: We need to patch Hubble UI's nginx config so it can be exposed via the Gateway API.
     # make sure that the pods are automatically restarted when the config is updated
     rollOutPods: true
-loadBalancer:
-  l7:
-    backend: envoy
-gatewayAPI:
-  enabled: true
+socketLB:
+  hostNamespaceOnly: true
 routingMode: tunnel
 tunnelProtocl: geneve
-bandwidthManager:
-  enabled: true

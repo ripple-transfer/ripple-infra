@@ -29,11 +29,15 @@ chmod 600 ~/.kube/config
 # Install Gateway API CRDs before Cilium, so we can immediately enable the Gateway API
 kubectl apply -k ./infrastructure/networking/gateway-api
 
+# Create the Cilium namespace
+kubectl apply -f ./infrastructure/networking/cilium/namespace.yaml
+
 # Install Cilium, so we have a CNI in the cluster. We use the same values file that will
 # be loaded by Flux, so we can transfer ownership of this installation once Flux is bootstrapped
 helm repo add cilium https://helm.cilium.io/
-helm install cilium cilium/cilium --namespace kube-system --version="1.15.x" -f ./infrastructure/networking/cilium/values.yaml
-cilium status --wait
+helm repo update
+helm install cilium cilium/cilium --namespace cilium --version="1.15.x" -f ./infrastructure/networking/cilium/values.yaml
+cilium status --namespace cilium --wait
 
 # Now, we can bootstrap Flux
 flux bootstrap github --token-auth --owner=ripple-transfer --repository=ripple-infra --branch master --path=clusters/dev

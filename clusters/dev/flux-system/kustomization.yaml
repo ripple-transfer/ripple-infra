@@ -38,3 +38,10 @@ patches:
     target:
       kind: Deployment
       name: source-controller
+  - patch: |-
+      - op: add
+        path: /metadata/annotations/istio.io~1dataplane-mode
+        value: ambient
+    target:
+      kind: Namespace
+      name: flux-system
