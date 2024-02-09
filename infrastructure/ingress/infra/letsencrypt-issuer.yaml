@@ -3,7 +3,7 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: letsencrypt
-  namespace: api-gateway
+  namespace: ingress-infra
 spec:
   acme:
     email: paralzsolt@gmail.com

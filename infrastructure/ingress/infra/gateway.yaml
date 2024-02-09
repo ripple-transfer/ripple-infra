@@ -3,12 +3,12 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: tls-gateway
-  namespace: api-gateway
+  namespace: ingress-infra
   annotations:
     cert-manager.io/issuer: letsencrypt
     cert-manager.io/private-key-rotation-policy: Always
 spec:
-  gatewayClassName: istio
+  gatewayClassName: contour
   listeners:
     - name: https-wildcard
       protocol: HTTPS

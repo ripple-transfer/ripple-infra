@@ -19,7 +19,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: hubble
-  namespace: api-gateway
+  namespace: ingress-infra
 spec:
   parentRefs:
     - name: tls-gateway
@@ -28,7 +28,7 @@ spec:
   rules:
     - backendRefs:
         - name: hubble-ui
-          namespace: cilium
+          namespace: kube-system
           port: 80
       timeouts:
         backendRequest: 3600s
