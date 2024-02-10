@@ -1,7 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: kube-system
+namespace: cilium
 resources:
+  - namespace.yaml
   - repository.yaml
   - cilium.yaml
   - cilium-trust-anchor.yaml
@@ -10,11 +11,11 @@ resources:
   - hubble-grant.yaml
 configMapGenerator:
   - name: cilium-values
-    namespace: kube-system
+    namespace: cilium
     files:
       - values.yaml
   - name: cilium-values-tls
-    namespace: kube-system
+    namespace: cilium
     files:
       - values.yaml=values-tls.yaml
 configurations:

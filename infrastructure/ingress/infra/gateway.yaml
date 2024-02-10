@@ -8,7 +8,7 @@ metadata:
     cert-manager.io/issuer: letsencrypt
     cert-manager.io/private-key-rotation-policy: Always
 spec:
-  gatewayClassName: contour
+  gatewayClassName: eg
   listeners:
     - name: https-wildcard
       protocol: HTTPS
@@ -18,6 +18,6 @@ spec:
         mode: Terminate
         certificateRefs:
           - name: ripple-transfer-dev-tls
-  infrastructure:
-    annotations:
-      io.cilium/lb-ipam-ips: "178.18.255.50"
+  # infrastructure:
+  #   annotations:
+  #     io.cilium/lb-ipam-ips: "178.18.255.50"

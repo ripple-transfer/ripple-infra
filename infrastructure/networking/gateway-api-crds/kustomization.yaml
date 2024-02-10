@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: networking-gateway
 
 resources:
-  - controller.yaml
+  - github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.0.0

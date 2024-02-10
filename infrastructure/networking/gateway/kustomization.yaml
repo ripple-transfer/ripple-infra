@@ -3,4 +3,6 @@ kind: Kustomization
 namespace: networking-gateway
 
 resources:
-  - controller.yaml
+  - namespace.yaml
+  - gateway-repository.yaml
+  - gateway.yaml

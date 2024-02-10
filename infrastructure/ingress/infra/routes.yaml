@@ -28,7 +28,7 @@ spec:
   rules:
     - backendRefs:
         - name: hubble-ui
-          namespace: kube-system
+          namespace: cilium
           port: 80
       timeouts:
         backendRequest: 3600s
