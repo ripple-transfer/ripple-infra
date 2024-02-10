@@ -4,9 +4,7 @@ metadata:
   name: load-balancer
   namespace: cilium
 spec:
-  # serviceSelector:
-  #   matchLabels:
-  #     # Hassle: Envoy Gateway deploys the LB in the namespace where it is installed in,
-  #     # not the namespace of the gateway
-  #     io.kubernetes.service.namespace: networking-gateway
+  serviceSelector:
+    matchLabels:
+      io.kubernetes.service.namespace: ingress-infra
   loadBalancerIPs: true

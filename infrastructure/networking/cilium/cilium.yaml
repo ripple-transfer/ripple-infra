@@ -17,11 +17,16 @@ spec:
         name: cilium
         namespace: cilium
       interval: 1m
+  values:
+    hubble:
+      ui:
+        podAnnotations:
+          nginx-workaround: "enabled"
   valuesFrom:
     - kind: ConfigMap
       name: cilium-values
-    # We actually upgrade the Cilium installation in-place, by enabling mTLS for Hubble after the bootstrap
-    # is complete. This allows us to install cert-manager before this step.
+      # We actually upgrade the Cilium installation in-place, by enabling mTLS for Hubble after the bootstrap
+      # is complete. This allows us to install cert-manager before this step.
     - kind: ConfigMap
       name: cilium-values-tls
   postRenderers:

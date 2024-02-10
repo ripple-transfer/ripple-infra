@@ -1,0 +1,16 @@
+# Hassle fix Hubble's access through the Gateway API
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hubble-ui-grpc
+  namespace: cilium
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8081
+      appProtocol: kubernetes.io/h2c
+  selector:
+    k8s-app: hubble-ui

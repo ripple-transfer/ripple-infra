@@ -1,8 +1,7 @@
 ---
-apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
+apiVersion: gateway.networking.k8s.io/v1beta1
 metadata:
-  name: eg
-  namespace: networking-gateway
+  name: contour
 spec:
-  controllerName: gateway.envoyproxy.io/gatewayclass-controller
+  controllerName: projectcontour.io/gateway-controller

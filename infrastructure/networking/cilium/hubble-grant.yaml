@@ -8,8 +8,23 @@ spec:
   from:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
-      namespace: api-gateway
+      namespace: ingress-infra
   to:
     - group: ""
       kind: Service
       name: hubble-ui
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: hubble-grpc-grant
+  namespace: cilium
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: ingress-infra
+  to:
+    - group: ""
+      kind: Service
+      name: hubble-ui-grpc

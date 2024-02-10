@@ -8,7 +8,7 @@ spec:
   from:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
-      namespace: api-gateway
+      namespace: ingress-infra
   to:
     - group: ""
       kind: Service

@@ -12,5 +12,3 @@ spec:
   path: ./infrastructure/monitoring/weave-gitops
   prune: true
   wait: true
----
-

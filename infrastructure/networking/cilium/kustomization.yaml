@@ -8,6 +8,7 @@ resources:
   - cilium-trust-anchor.yaml
   - l2-announcement.yaml
   - load-balancer-ips.yaml
+  - hubble-ui-grpc.yaml
   - hubble-grant.yaml
 configMapGenerator:
   - name: cilium-values
