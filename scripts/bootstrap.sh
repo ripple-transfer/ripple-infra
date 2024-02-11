@@ -8,15 +8,12 @@ set -o pipefail
 kind delete cluster --name ripple
 kind create cluster --config kind-config.yaml
 
-# Create the cilium namespace
-kubectl apply -f ./infrastructure/networking/cilium/namespace.yaml
-
 # Install Cilium, so we have a CNI in the cluster. We use the same values file that will
 # be loaded by Flux, so we can transfer ownership of this installation once Flux is bootstrapped
 helm repo add cilium https://helm.cilium.io/
 helm repo update
-helm install cilium cilium/cilium --version="1.15.x" --namespace="cilium" -f ./infrastructure/networking/cilium/values.yaml
-cilium status --namespace cilium --wait
+helm install cilium cilium/cilium --version="1.15.x" --namespace="kube-system" -f ./infrastructure/networking/cilium/values.yaml
+cilium status --wait
 
 # Install Gateway API CRDs
 kubectl apply -k ./infrastructure/networking/gateway-api-crds

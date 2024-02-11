@@ -3,7 +3,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: cilium-trust-anchor
-  namespace: cilium
+  namespace: kube-system
 spec:
   isCA: true
   duration: 87660h
@@ -26,7 +26,7 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: cilium-trust-anchor
-  namespace: cilium
+  namespace: kube-system
 spec:
   ca:
     secretName: cilium-trust-anchor

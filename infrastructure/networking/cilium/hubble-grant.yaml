@@ -3,7 +3,7 @@ apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
   name: hubble-grant
-  namespace: cilium
+  namespace: kube-system
 spec:
   from:
     - group: gateway.networking.k8s.io
@@ -18,7 +18,7 @@ apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
   name: hubble-grpc-grant
-  namespace: cilium
+  namespace: kube-system
 spec:
   from:
     - group: gateway.networking.k8s.io

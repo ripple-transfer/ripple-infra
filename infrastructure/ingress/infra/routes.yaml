@@ -32,11 +32,11 @@ spec:
             value: "/api/"
       backendRefs:
         - name: hubble-ui-grpc
-          namespace: cilium
+          namespace: kube-system
           port: 80
       timeouts:
         request: 3600s
     - backendRefs:
         - name: hubble-ui
-          namespace: cilium
+          namespace: kube-system
           port: 80
