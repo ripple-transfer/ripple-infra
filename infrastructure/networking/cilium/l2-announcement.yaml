@@ -6,5 +6,5 @@ metadata:
 spec:
   serviceSelector:
     matchLabels:
-      io.kubernetes.service.namespace: ingress-infra
+      io.kubernetes.service.namespace: networking-gateway
   loadBalancerIPs: true
