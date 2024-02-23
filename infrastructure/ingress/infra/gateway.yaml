@@ -20,4 +20,4 @@ spec:
           - name: ripple-transfer-dev-tls
   infrastructure:
     annotations:
-      io.cilium/lb-ipam-ips: "172.18.255.50"
+      io.cilium/lb-ipam-ips: "10.89.0.50"

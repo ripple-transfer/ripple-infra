@@ -5,15 +5,16 @@ set -o nounset
 set -o pipefail
 
 # Reset kind cluster
-kind delete cluster --name ripple
-kind create cluster --config kind-config.yaml
+sudo kind delete cluster --name ripple --kubeconfig "${KUBECONFIG}"
+sudo kind create cluster --config kind-config.yaml --kubeconfig "${KUBECONFIG}"
+sudo chown "${USER}:${USER}" "${KUBECONFIG}"
 
 # Install Cilium, so we have a CNI in the cluster. We use the same values file that will
 # be loaded by Flux, so we can transfer ownership of this installation once Flux is bootstrapped
 helm repo add cilium https://helm.cilium.io/
 helm repo update
 helm install cilium cilium/cilium --version="1.15.x" --namespace="kube-system" -f ./infrastructure/networking/cilium/values.yaml
-cilium status --wait
+cilium-cli status --wait
 
 # Install Gateway API CRDs
 kubectl apply -k ./infrastructure/networking/gateway-api-crds
