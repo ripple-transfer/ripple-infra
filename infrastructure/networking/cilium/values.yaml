@@ -15,9 +15,6 @@ hubble:
     enabled: true
   ui:
     enabled: true
-    # Hassle: We need to patch Hubble UI's nginx config so it can be exposed via the Gateway API.
-    # make sure that the pods are automatically restarted when the config is updated
-    rollOutPods: true
 routingMode: tunnel
 tunnelProtocol: geneve
 bandwidthManager:
