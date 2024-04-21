@@ -57,6 +57,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: ripple-infra
+  dependsOn:
+    - name: networking-cilium
+      namespace: flux-infrastructure
   path: ./infrastructure/networking/gateway
   prune: true
   wait: true
