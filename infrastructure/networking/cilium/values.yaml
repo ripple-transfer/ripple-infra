@@ -15,10 +15,6 @@ hubble:
     enabled: true
   ui:
     enabled: true
-routingMode: tunnel
-tunnelProtocol: geneve
-bandwidthManager:
-  enabled: true
 loadBalancer:
   l7:
     backend: envoy

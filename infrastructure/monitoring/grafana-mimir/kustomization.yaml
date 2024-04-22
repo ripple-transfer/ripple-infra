@@ -4,3 +4,13 @@ namespace: grafana-mimir
 
 resources:
   - namespace.yaml
+  - minio.yaml
+
+secretGenerator:
+  - name: minio-root
+    namespace: grafana-mimir
+    envs:
+      - minio.env
+
+configurations:
+  - kustomizeconfig.yaml

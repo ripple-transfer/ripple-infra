@@ -1,0 +1,57 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: grafana-mimir-minio
+  namespace: grafana-mimir
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: tenant
+      version: "5.x"
+      sourceRef:
+        kind: HelmRepository
+        name: minio-operator
+        namespace: minio
+      interval: 12h
+  values:
+    tenant:
+      name: grafana-mimir
+      configSecret:
+        name: myminio-env-configuration
+      pools:
+        - servers: 1
+          name: mimir-pool
+          volumesPerServer: 1
+          size: 1Gi
+          storageClassName: standard
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: "OnRootMismatch"
+            runAsNonRoot: true
+          containerSecurityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+      buckets:
+        - name: mimir-ruler
+        - name: mimir-blocks
+        - name: mimir-alertmanager
+      metrics:
+        enabled: true
+        port: 9000
+        protocol: http
+      # Hassle: Enable this when Loki is set up
+      # logging: json
+  valuesFrom:
+    - kind: Secret
+      name: minio-root
+      valuesKey: accessKey
+      targetPath: tenant.configSecret.accessKey
+    - kind: Secret
+      name: minio-root
+      valuesKey: secretKey
+      targetPath: tenant.configSecret.secretKey
