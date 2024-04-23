@@ -18,5 +18,5 @@ spec:
         namespace: minio
       interval: 12h
   values:
-    # console:
-    #   readOnly: true
+    console:
+      readOnly: true

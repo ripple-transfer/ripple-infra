@@ -4,7 +4,9 @@ namespace: grafana-mimir
 
 resources:
   - namespace.yaml
-  - minio.yaml
+  # - mimir.yaml
+  # - minio.yaml
+  - repository.yaml
 
 secretGenerator:
   - name: minio-root

@@ -1,0 +1,58 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mimir
+  namespace: grafana-mimir
+spec:
+  interval: 30m
+  dependsOn:
+    - name: minio
+      namespace: grafana-mimir
+  chart:
+    spec:
+      chart: mimir-distributed
+      version: "5.x"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: grafana-mimir
+      interval: 12h
+  values:
+    # Hassle: the default (and now deprecated) setup using nginx does not work properly with
+    # Prometheus remote write for some reason. Using the gateway does
+    gateway:
+      enabledNonEnterprise: true
+    nginx:
+      enabled: false
+    minio:
+      enabled: false
+    runtimeConfig:
+      ingester_limits:
+        max_series: 1000000
+    mimir:
+      structuredConfig:
+        common:
+          storage:
+            backend: s3
+            s3:
+              endpoint: "minio.grafana-mimir.svc"
+              insecure: true
+        alertmanager_storage:
+          s3:
+            bucket_name: mimir-ruler
+        blocks_storage:
+          s3:
+            bucket_name: mimir-blocks
+        ruler_storage:
+          s3:
+            bucket_name: mimir-ruler
+  valuesFrom:
+    - kind: Secret
+      name: minio-root
+      valuesKey: accessKey
+      targetPath: mimir.structuredConfig.common.storage.s3.access_key_id
+    - kind: Secret
+      name: minio-root
+      valuesKey: secretKey
+      targetPath: mimir.structuredConfig.common.storage.s3.secret_access_key

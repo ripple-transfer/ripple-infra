@@ -17,3 +17,6 @@ spec:
         name: gateway
         namespace: networking-gateway
       interval: 1m
+  values:
+    logging:
+      level: debug
