@@ -1,8 +1,0 @@
----
-kind: GatewayClass
-apiVersion: gateway.networking.k8s.io/v1beta1
-metadata:
-  name: eg
-  namespace: networking-gateway
-spec:
-  controllerName: gateway.envoyproxy.io/gatewayclass-controller
