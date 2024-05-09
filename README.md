@@ -6,7 +6,7 @@ Ripple is a toy implementation emulating cross-border payments, without the actu
 
 - Relatively recent Linux distribution
   - When using WSL2, you will need to build a custom kernel following [this guide](https://wsl.dev/wslcilium/)
-- Suitable container engine: [Set up Docker](https://docs.docker.com/engine/install/)
+- Suitable container engine: [Set up Rootless Podman](https://wiki.archlinux.org/title/Podman)
 - Kubernetes cluster: the automated bootstrap uses [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 - One domain name, preferably using a registrar with [cert-manager DNS01 integration](https://cert-manager.io/docs/configuration/acme/dns01/)
 - [Mozilla SOPS](https://github.com/getsops/sops) and [age](https://github.com/FiloSottile/age) for secret encryption
@@ -58,18 +58,22 @@ To issue certificates for your own domain, make sure to update the ACME issuer u
 
 ## Updating load balancer IPs
 
-For the Cilium load balancer to work, we need to provide it an IP address range it can use. As explained in the [kind documentation](https://kind.sigs.k8s.io/docs/user/loadbalancer/), this has to be on the docker kind network.
+The project uses MetalLB as a load balancer. We need to provide it an IP address range it can use. As explained in the [kind documentation](https://kind.sigs.k8s.io/docs/user/loadbalancer/), this has to be on the network created by podman. You can set up podman to use certain IP subnet pools when creating the networks in `/etc/containers/containers.conf` by adding:
 
-To find the IP addresses that fall into this range, use:
-
-```bash
-docker network inspect -f '{{.IPAM.Config}}' kind
+```conf
+default_subnet_pools = [
+  {"base" = "10.89.0.0/16", "size" = 16},
+  {"base" = "10.90.0.0/15", "size" = 24},
+  {"base" = "10.92.0.0/14", "size" = 24},
+  {"base" = "10.96.0.0/11", "size" = 24},
+  {"base" = "10.128.0.0/9", "size" = 24},
+]
 ```
 
-And update:
+You can also just create a dedicated kind network with the subnet you want to use. In either case, update:
 
-- `infrastructure/cilium/load-balancer-ips.yaml` to assign a range of IP addresses to the load balancer IP pool
-- `infrastructure/ingress/emissary.yaml` to set the preferred IP for the main ingress
+- `infrastructure/metallb/metallb-config.yaml` to assign a range of IP addresses to the load balancer IP pool
+- `infrastructure/ingress/infra/gateway.yaml` to set the preferred IP for the main ingress
 
 # Setup
 
@@ -81,19 +85,11 @@ A completely new Kubernetes cluster can be bootstrapped by running:
 ./scripts/bootstrap.sh
 ```
 
-This will create a new Kind cluster with one control plane and two worker nodes. It also installs Cilium, bootstraps Flux and sets up SOPS support.
+This will create a new Kind cluster with one control plane and two worker nodes. It also bootstraps Flux and sets up SOPS support.
 
 ## Flux reconciliation
 
 After the bootstrap is complete, Flux will take over the management of the cluster, bringing all defined infrastructure up to date.
-
-## Flux + Linkerd
-
-Because Flux sets up the whole infrastructure, the pods in the `flux-system` namespace will not have a Linkerd sidecar automatically injected into them until they are restarted. To make sure these pods are also meshed, use:
-
-```bash
-./scripts/enroll-flux-in-linkerd.sh
-```
 
 # Components
 
@@ -117,18 +113,21 @@ Search for `# Hassle` in the codebase to see the parts that were particularly an
 
 To access services exposed by the ingress, you can set up `dnsmasq` on the host machine to resolve `*.ripple-transfer.dev` (or your equivalent) to the external IP address of the ingress `LoadBalancer`.
 
-You should have set the external IP of the load balancer in the preparation step, but if not you can find it with:
-
-```bash
-kubectl get svc -n ingress emissary-ingress  -ojson \
-  | jq '.status.loadBalancer.ingress[0].ip'
-```
-
-Then, install `dnsmasq` and add a new configuration under `/etc/dnsmasq.d/dev-domains.conf`:
+Install `dnsmasq` and add a new configuration under `/etc/dnsmasq.d/dev-domains.conf`:
 
 ```conf
 address=/ripple-transfer.dev/<external IP>
 ```
+
+Since the project is normally run using rootless podman, you need to start your browser in the netns that is used to set up the `podman` network. You can do this by:
+
+```bash
+podman unshare --rootless-netns
+firefox-developer-edition
+# Access services normally
+```
+
+If you get certificate errors, you can add the Let's Encrypt Staging Certificates to the trusted CAs of your browser **but please note** that this is very insecure, so make sure to use a separate browser for testing if you decide to do this.
 
 #### WSL Proxying
 
@@ -160,10 +159,8 @@ Then edit `%SystemRoot%\System32\drivers\etc\hosts`:
 ```
 <WSL IP address> gitops.ripple-transfer.dev
 <WSL IP address> k8s.ripple-transfer.dev
-<WSL IP address> linkerd.ripple-transfer.dev
 <WSL IP address> grafana.ripple-transfer.dev
 <WSL IP address> minio.ripple-transfer.dev
-<WSL IP address> hubble.ripple-transfer.dev
 ```
 
 

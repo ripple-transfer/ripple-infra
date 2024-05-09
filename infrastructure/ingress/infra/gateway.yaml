@@ -12,7 +12,7 @@ spec:
   listeners:
     - name: https-wildcard
       protocol: HTTPS
-      port: 8443
+      port: 443
       hostname: "*.ripple-transfer.dev"
       tls:
         mode: Terminate
@@ -20,4 +20,4 @@ spec:
           - name: ripple-transfer-dev-tls
   infrastructure:
     annotations:
-      io.cilium/lb-ipam-ips: "172.18.255.25"
+      metallb.universe.tf/loadBalancerIPs: "10.89.255.50"
