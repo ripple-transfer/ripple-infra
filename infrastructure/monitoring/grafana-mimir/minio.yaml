@@ -18,8 +18,6 @@ spec:
   values:
     tenant:
       name: grafana-mimir
-      configSecret:
-        name: myminio-env-configuration
       pools:
         - servers: 1
           name: mimir-pool
@@ -50,8 +48,8 @@ spec:
     - kind: Secret
       name: minio-root
       valuesKey: accessKey
-      targetPath: tenant.configSecret.accessKey
+      targetPath: secrets.accessKey
     - kind: Secret
       name: minio-root
       valuesKey: secretKey
-      targetPath: tenant.configSecret.secretKey
+      targetPath: secrets.secretKey

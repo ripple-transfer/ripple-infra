@@ -9,7 +9,7 @@ systemd-run --scope --user --property=Delegate=yes kind delete cluster --name ri
 systemd-run --scope --user --property=Delegate=yes kind create cluster --config kind-config.yaml --kubeconfig "${KUBECONFIG}"
 
 # Install Gateway API CRDs
-kubectl apply -k ./infrastructure/networking/gateway-api-crds
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=444631bfe06f3bcca5d0eadf1857eac1d369421d" | kubectl apply -f -;
 
 # Now, we can bootstrap Flux
 flux bootstrap github --token-auth --owner=ripple-transfer --repository=ripple-infra --branch master --path=clusters/dev
