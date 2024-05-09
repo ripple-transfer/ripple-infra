@@ -7,6 +7,8 @@ metadata:
   annotations:
     cert-manager.io/issuer: letsencrypt
     cert-manager.io/private-key-rotation-policy: Always
+    # Hassle: Need to work around: https://github.com/istio/istio/issues/50983
+    metallb.universe.tf/loadBalancerIPs: "10.89.255.50"
 spec:
   gatewayClassName: istio
   listeners:
@@ -18,6 +20,3 @@ spec:
         mode: Terminate
         certificateRefs:
           - name: ripple-transfer-dev-tls
-  infrastructure:
-    annotations:
-      metallb.universe.tf/loadBalancerIPs: "10.89.255.50"

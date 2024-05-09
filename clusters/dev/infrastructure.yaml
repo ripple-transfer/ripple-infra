@@ -59,6 +59,8 @@ spec:
   dependsOn:
     - name: networking
       namespace: flux-infrastructure
+    - name: monitoring
+      namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository
     name: ripple-infra

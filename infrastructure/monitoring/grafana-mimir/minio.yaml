@@ -19,11 +19,12 @@ spec:
     tenant:
       name: grafana-mimir
       pools:
-        - servers: 1
-          name: mimir-pool
+        - name: mimir-pool
+          servers: 1
           volumesPerServer: 1
-          size: 1Gi
+          size: "1073741824"
           storageClassName: standard
+          runtimeClassName: ""
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
@@ -31,9 +32,15 @@ spec:
             fsGroupChangePolicy: "OnRootMismatch"
             runAsNonRoot: true
           containerSecurityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
             runAsUser: 1000
             runAsGroup: 1000
             runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
       buckets:
         - name: mimir-ruler
         - name: mimir-blocks
@@ -44,6 +51,11 @@ spec:
         protocol: http
       certificate:
         requestAutoCert: false
+      env:
+        - name: MINIO_STORAGE_CLASS_STANDARD
+          value: EC:0
+        - name: MINIO_STORAGE_CLASS_RRS
+          value: EC:0
   valuesFrom:
     - kind: Secret
       name: minio-root

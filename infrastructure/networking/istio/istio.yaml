@@ -12,7 +12,7 @@ spec:
   chart:
     spec:
       chart: base
-      version: "1.21.x"
+      version: "1.22.x"
       sourceRef:
         kind: HelmRepository
         name: istio
@@ -34,7 +34,7 @@ spec:
   chart:
     spec:
       chart: cni
-      version: "1.21.x"
+      version: "1.22.x"
       sourceRef:
         kind: HelmRepository
         name: istio
@@ -50,15 +50,15 @@ metadata:
   namespace: istio-system
 spec:
   interval: 5m
-  driftDetection:
-    mode: enabled
+  # driftDetection:
+  #   mode: enabled
   dependsOn:
     - name: istio-cni
       namespace: istio-system
   chart:
     spec:
       chart: istiod
-      version: "1.21.x"
+      version: "1.22.x"
       sourceRef:
         kind: HelmRepository
         name: istio
@@ -82,7 +82,7 @@ spec:
   chart:
     spec:
       chart: ztunnel
-      version: "1.21.x"
+      version: "1.22.x"
       sourceRef:
         kind: HelmRepository
         name: istio
