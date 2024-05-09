@@ -17,6 +17,6 @@ spec:
         name: minio-operator
         namespace: minio
       interval: 12h
-  values:
-    console:
-      readOnly: true
+  # values:
+  #   console:
+  #     readOnly: true

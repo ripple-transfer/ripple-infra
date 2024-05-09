@@ -4,7 +4,7 @@ namespace: grafana-mimir
 
 resources:
   - namespace.yaml
-  #   - mimir.yaml
+  - mimir.yaml
   - minio.yaml
   - repository.yaml
 
