@@ -5,11 +5,3 @@ namespace: metallb-system
 resources:
   - github.com/metallb/metallb/config/native?ref=v0.14.5
   - metallb-config.yaml
-# patches:
-#   - patch: |-
-#       - op: add
-#         path: /metadata/labels/istio.io~1dataplane-mode
-#         value: ambient
-#     target:
-#       kind: Namespace
-#       name: metallb-system
