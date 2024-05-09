@@ -16,7 +16,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: networking-cert-manager
+  name: networking-istio
   namespace: flux-infrastructure
 spec:
   interval: 5m
@@ -25,6 +25,23 @@ spec:
     name: ripple-infra
   dependsOn:
     - name: networking-gateway-api-crds
+      namespace: flux-infrastructure
+  path: ./infrastructure/networking/istio
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: networking-cert-manager
+  namespace: flux-infrastructure
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: ripple-infra
+  dependsOn:
+    - name: networking-istio
       namespace: flux-infrastructure
   path: ./infrastructure/networking/cert-manager
   prune: true
@@ -40,23 +57,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: ripple-infra
-  path: ./infrastructure/networking/metallb
-  prune: true
-  wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: networking-istio
-  namespace: flux-infrastructure
-spec:
-  interval: 5m
-  sourceRef:
-    kind: GitRepository
-    name: ripple-infra
   dependsOn:
-    - name: networking-gateway-api-crds
+    - name: networking-istio
       namespace: flux-infrastructure
-  path: ./infrastructure/networking/istio
+  path: ./infrastructure/networking/metallb
   prune: true
   wait: true
