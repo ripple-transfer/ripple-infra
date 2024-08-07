@@ -20,4 +20,4 @@ spec:
   values:
     installCRDs: false
     extraArgs:
-      - --feature-gates=ExperimentalGatewayAPISupport=true
+      - --enable-gateway-api
