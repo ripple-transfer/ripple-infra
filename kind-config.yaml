@@ -6,7 +6,7 @@ featureGates:
   SidecarContainers: true
 nodes:
   - role: control-plane
-    image: kindest/node:v1.29.2@sha256:51a1434a5397193442f0be2a297b488b6c919ce8a3931be0ce822606ea5ca245
+    image: kindest/node:v1.30.0@sha256:047357ac0cfea04663786a612ba1eaba9702bef25227a794b52890dd8bcd692e
     # Hassle: local storage capacity isolation is disabled by default for rootless kind containers, making
     # it impossible for minio pods to be scheduled: https://github.com/kubernetes-sigs/kind/issues/3359
     kubeadmConfigPatches:
@@ -17,12 +17,12 @@ nodes:
       - containerPath: /var/lib/kubelet/config.json
         hostPath: ./.cert/secret.json
   - role: worker
-    image: kindest/node:v1.29.2@sha256:51a1434a5397193442f0be2a297b488b6c919ce8a3931be0ce822606ea5ca245
+    image: kindest/node:v1.30.0@sha256:047357ac0cfea04663786a612ba1eaba9702bef25227a794b52890dd8bcd692e
     extraMounts:
       - containerPath: /var/lib/kubelet/config.json
         hostPath: ./.cert/secret.json
   - role: worker
-    image: kindest/node:v1.29.2@sha256:51a1434a5397193442f0be2a297b488b6c919ce8a3931be0ce822606ea5ca245
+    image: kindest/node:v1.30.0@sha256:047357ac0cfea04663786a612ba1eaba9702bef25227a794b52890dd8bcd692e
     extraMounts:
       - containerPath: /var/lib/kubelet/config.json
         hostPath: ./.cert/secret.json
