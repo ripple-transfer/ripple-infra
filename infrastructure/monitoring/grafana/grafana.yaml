@@ -42,7 +42,7 @@ spec:
       datasources.yaml:
         apiVersion: 1
         datasources:
-          - name: mimir
+          - name: Mimir
             type: prometheus
             uid: mimir
             access: proxy
@@ -53,12 +53,32 @@ spec:
             isDefault: true
             jsonData:
               timeInterval: "5s"
+              manageAlerts: true
+              prometheusType: Mimir
+              exemplarTraceIdDestinations:
+                - datasourceUid: tempo
+                  name: traceID
           - name: Tempo
             type: tempo
             uid: tempo
             access: proxy
             url: http://tempo-query-frontend.grafana-tempo.svc.cluster.local:3100
-          - name: loki
+            jsonData:
+              tracesToLogsV2:
+                datasourceUid: loki
+                spanStartTimeShift: '-2m'
+                spanEndTimeShift: '2m'
+                filterByTraceID: true
+              tracesToMetrics:
+                datasourceUid: mimir
+              tracesToProfiles:
+                datasourceUid: pyroscope
+                profileTypeId: 'process_cpu:cpu:nanoseconds:cpu:nanoseconds'
+              serviceMap:
+                datasourceUid: mimir
+              nodeGraph:
+                enabled: true
+          - name: Loki
             type: loki
             uid: loki
             access: proxy
@@ -72,6 +92,10 @@ spec:
                   matcherRegex: "traceID=(\\w+)"
                   url: "$${__value.raw}"
                   urlDisplayLabel: "View Trace"
+          - name: Pyroscope
+            type: grafana-pyroscope-datasource
+            uid: pyroscope
+            url: http://pyroscope-query-frontend.grafana-pyroscope.svc.cluster.local:4040
 
     dashboardProviders:
       dashboardproviders.yaml:

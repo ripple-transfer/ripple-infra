@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: grafana-pyroscope
+
+resources:
+  - namespace.yaml
+  - minio.yaml
+  - pyroscope.yaml
+  - repository.yaml
+
+secretGenerator:
+  - name: minio-root
+    namespace: grafana-pyroscope
+    envs:
+      - minio.env
+
+configurations:
+  - kustomizeconfig.yaml
