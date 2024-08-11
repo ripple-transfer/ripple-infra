@@ -26,3 +26,8 @@ nodes:
     extraMounts:
       - containerPath: /var/lib/kubelet/config.json
         hostPath: ./.cert/secret.json
+  - role: worker
+    image: kindest/node:v1.30.0@sha256:047357ac0cfea04663786a612ba1eaba9702bef25227a794b52890dd8bcd692e
+    extraMounts:
+      - containerPath: /var/lib/kubelet/config.json
+        hostPath: ./.cert/secret.json

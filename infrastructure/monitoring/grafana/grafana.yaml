@@ -58,20 +58,20 @@ spec:
             uid: tempo
             access: proxy
             url: http://tempo-query-frontend.grafana-tempo.svc.cluster.local:3100
-          # - name: loki
-          #   type: loki
-          #   uid: loki
-          #   access: proxy
-          #   url: http://loki-gateway.grafana-loki.svc.cluster.local:80
-          #   jsonData:
-          #     derivedFields:
-          #       - name: TraceID
-          #         # Hassle: This has to point to the data source UID of the tracing data source, which
-          #         # is not immediately clear from the documentation
-          #         datasourceUid: tempo
-          #         matcherRegex: "traceID=(\\w+)"
-          #         url: "$${__value.raw}"
-          #         urlDisplayLabel: "View Trace"
+          - name: loki
+            type: loki
+            uid: loki
+            access: proxy
+            url: http://loki-gateway.grafana-loki.svc.cluster.local:80
+            jsonData:
+              derivedFields:
+                - name: TraceID
+                  # Hassle: This has to point to the data source UID of the tracing data source, which
+                  # is not immediately clear from the documentation
+                  datasourceUid: tempo
+                  matcherRegex: "traceID=(\\w+)"
+                  url: "$${__value.raw}"
+                  urlDisplayLabel: "View Trace"
 
     dashboardProviders:
       dashboardproviders.yaml:
