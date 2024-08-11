@@ -113,65 +113,9 @@ spec:
     dashboards:
       default:
         # all these charts are hosted at https://grafana.com/grafana/dashboards/{id}
-        top-line:
-          gnetId: 15474
-          revision: 4
-          datasource: mimir
-        health:
-          gnetId: 15486
-          revision: 3
-          datasource: mimir
         kubernetes:
           gnetId: 15479
           revision: 2
-          datasource: mimir
-        namespace:
-          gnetId: 15478
-          revision: 3
-          datasource: mimir
-        deployment:
-          gnetId: 15475
-          revision: 6
-          datasource: mimir
-        pod:
-          gnetId: 15477
-          revision: 3
-          datasource: mimir
-        service:
-          gnetId: 15480
-          revision: 3
-          datasource: mimir
-        route:
-          gnetId: 15481
-          revision: 3
-          datasource: mimir
-        authority:
-          gnetId: 15482
-          revision: 3
-          datasource: mimir
-        cronjob:
-          gnetId: 15483
-          revision: 3
-          datasource: mimir
-        job:
-          gnetId: 15487
-          revision: 3
-          datasource: mimir
-        daemonset:
-          gnetId: 15484
-          revision: 3
-          datasource: mimir
-        replicaset:
-          gnetId: 15491
-          revision: 3
-          datasource: mimir
-        statefulset:
-          gnetId: 15493
-          revision: 3
-          datasource: mimir
-        replicationcontroller:
-          gnetId: 15492
-          revision: 4
           datasource: mimir
         prometheus:
           gnetId: 15489
@@ -180,8 +124,4 @@ spec:
         prometheus-benchmark:
           gnetId: 15490
           revision: 2
-          datasource: mimir
-        multicluster:
-          gnetId: 15488
-          revision: 3
           datasource: mimir
