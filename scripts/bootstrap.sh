@@ -4,6 +4,9 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+# Start registry caches
+podman-compose up -d
+
 # Reset kind cluster
 systemd-run --scope --user --property=Delegate=yes kind delete cluster --name ripple --kubeconfig "${KUBECONFIG}"
 systemd-run --scope --user --property=Delegate=yes kind create cluster --config kind-config.yaml --kubeconfig "${KUBECONFIG}"

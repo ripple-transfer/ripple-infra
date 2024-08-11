@@ -1,0 +1,37 @@
+# Set up registry caches for Kind to avoid re-pulling all the different images on every new bootstrap
+services:
+  proxy-docker-hub:
+    image: registry:2
+    restart: always
+    environment:
+      REGISTRY_PROXY_REMOTEURL: https://registry-1.docker.io
+    networks:
+      - kind
+
+  proxy-quay:
+    image: registry:2
+    restart: always
+    environment:
+      REGISTRY_PROXY_REMOTEURL: https://quay.io
+    networks:
+      - kind
+
+  proxy-gcr:
+    image: registry:2
+    restart: always
+    environment:
+      REGISTRY_PROXY_REMOTEURL: https://gcr.io
+    networks:
+      - kind
+
+  proxy-k8s-gcr:
+    image: registry:2
+    restart: always
+    environment:
+      REGISTRY_PROXY_REMOTEURL: https://k8s.gcr.io
+    networks:
+      - kind
+
+networks:
+  kind:
+    name: kind
