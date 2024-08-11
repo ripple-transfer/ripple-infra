@@ -30,3 +30,40 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: monitoring-grafana-tempo
+  namespace: flux-infrastructure
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: ripple-infra
+  path: ./infrastructure/monitoring/grafana-tempo
+  prune: true
+  wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: monitoring-grafana
+  namespace: flux-infrastructure
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: ripple-infra
+  dependsOn:
+    - name: monitoring-grafana-tempo
+      namespace: flux-infrastructure
+    - name: monitoring-grafana-mimir
+      namespace: flux-infrastructure
+  path: ./infrastructure/monitoring/grafana
+  prune: true
+  wait: true

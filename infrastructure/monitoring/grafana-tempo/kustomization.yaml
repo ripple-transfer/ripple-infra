@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: grafana-tempo
+
+resources:
+  - minio.yaml
+  - namespace.yaml
+  - repository.yaml
+  - tempo.yaml
+
+secretGenerator:
+  - name: minio-root
+    namespace: grafana-tempo
+    envs:
+      - minio.env
+
+configurations:
+  - kustomizeconfig.yaml

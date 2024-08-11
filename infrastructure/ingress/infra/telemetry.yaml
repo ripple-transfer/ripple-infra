@@ -1,0 +1,9 @@
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: ingress
+  namespace: ingress-infra
+spec:
+  accessLogging:
+    - providers:
+      - name: envoy

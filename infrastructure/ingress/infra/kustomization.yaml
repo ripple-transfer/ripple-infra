@@ -8,3 +8,4 @@ resources:
   - gateway.yaml
   - letsencrypt-issuer.yaml
   - routes.yaml
+  - telemetry.yaml

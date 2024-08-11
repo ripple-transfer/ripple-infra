@@ -1,0 +1,163 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: grafana
+spec:
+  interval: 30m
+  targetNamespace: grafana
+  releaseName: grafana
+  chart:
+    spec:
+      chart: grafana
+      version: "8.x"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: grafana
+      interval: 12h
+  values:
+    grafana.ini:
+      auth:
+        disable_login_form: true
+      auth.anonymous:
+        enabled: true
+        org_role: Admin
+      auth.basic:
+        enabled: false
+      analytics:
+        check_for_updates: false
+      panels:
+        disable_sanitize_html: true
+      log:
+        mode: console
+      log.console:
+        format: text
+        level: info
+      tracing.opentelemetry.otlp:
+        address: "tempo-distributor.grafana-tempo.svc.cluster.local:4317"
+
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: mimir
+            type: prometheus
+            uid: mimir
+            access: proxy
+            url: http://mimir-gateway.grafana-mimir.svc.cluster.local:80/prometheus
+            # Hassle: You should not define multiple `isDefault` data sources.
+            # This might be self-explanatory, but combined with automatic Flux deployments, it's not
+            # very easy to debug
+            isDefault: true
+            jsonData:
+              timeInterval: "5s"
+          - name: Tempo
+            type: tempo
+            uid: tempo
+            access: proxy
+            url: http://tempo-query-frontend.grafana-tempo.svc.cluster.local:3100
+          # - name: loki
+          #   type: loki
+          #   uid: loki
+          #   access: proxy
+          #   url: http://loki-gateway.grafana-loki.svc.cluster.local:80
+          #   jsonData:
+          #     derivedFields:
+          #       - name: TraceID
+          #         # Hassle: This has to point to the data source UID of the tracing data source, which
+          #         # is not immediately clear from the documentation
+          #         datasourceUid: tempo
+          #         matcherRegex: "traceID=(\\w+)"
+          #         url: "$${__value.raw}"
+          #         urlDisplayLabel: "View Trace"
+
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+          - name: "default"
+            orgId: 1
+            folder: ""
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/default
+
+    dashboards:
+      default:
+        # all these charts are hosted at https://grafana.com/grafana/dashboards/{id}
+        top-line:
+          gnetId: 15474
+          revision: 4
+          datasource: mimir
+        health:
+          gnetId: 15486
+          revision: 3
+          datasource: mimir
+        kubernetes:
+          gnetId: 15479
+          revision: 2
+          datasource: mimir
+        namespace:
+          gnetId: 15478
+          revision: 3
+          datasource: mimir
+        deployment:
+          gnetId: 15475
+          revision: 6
+          datasource: mimir
+        pod:
+          gnetId: 15477
+          revision: 3
+          datasource: mimir
+        service:
+          gnetId: 15480
+          revision: 3
+          datasource: mimir
+        route:
+          gnetId: 15481
+          revision: 3
+          datasource: mimir
+        authority:
+          gnetId: 15482
+          revision: 3
+          datasource: mimir
+        cronjob:
+          gnetId: 15483
+          revision: 3
+          datasource: mimir
+        job:
+          gnetId: 15487
+          revision: 3
+          datasource: mimir
+        daemonset:
+          gnetId: 15484
+          revision: 3
+          datasource: mimir
+        replicaset:
+          gnetId: 15491
+          revision: 3
+          datasource: mimir
+        statefulset:
+          gnetId: 15493
+          revision: 3
+          datasource: mimir
+        replicationcontroller:
+          gnetId: 15492
+          revision: 4
+          datasource: mimir
+        prometheus:
+          gnetId: 15489
+          revision: 2
+          datasource: mimir
+        prometheus-benchmark:
+          gnetId: 15490
+          revision: 2
+          datasource: mimir
+        multicluster:
+          gnetId: 15488
+          revision: 3
+          datasource: mimir

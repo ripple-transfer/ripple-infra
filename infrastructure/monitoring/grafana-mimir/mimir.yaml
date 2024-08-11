@@ -36,7 +36,7 @@ spec:
           storage:
             backend: s3
             s3:
-              endpoint: "minio.grafana-mimir.svc"
+              endpoint: minio.grafana-mimir.svc
               insecure: true
         alertmanager_storage:
           s3:
