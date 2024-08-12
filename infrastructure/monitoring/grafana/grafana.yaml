@@ -73,7 +73,7 @@ spec:
                 datasourceUid: mimir
               tracesToProfiles:
                 datasourceUid: pyroscope
-                profileTypeId: 'process_cpu:cpu:nanoseconds:cpu:nanoseconds'
+                profileTypeId: 'process_cpu-cpu'
               serviceMap:
                 datasourceUid: mimir
               nodeGraph:

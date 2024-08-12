@@ -30,6 +30,36 @@ spec:
     runtimeConfig:
       ingester_limits:
         max_series: 1000000
+    alertmanager:
+      extraArgs:
+        auth.multitenancy-enabled: false
+    compactor:
+      extraArgs:
+        auth.multitenancy-enabled: false
+    distributor:
+      extraArgs:
+        auth.multitenancy-enabled: false
+    ingester:
+      extraArgs:
+        auth.multitenancy-enabled: false
+    overrides_exporter:
+      extraArgs:
+        auth.multitenancy-enabled: false
+    querier:
+      extraArgs:
+        auth.multitenancy-enabled: false
+    query_frontend:
+      extraArgs:
+        auth.multitenancy-enabled: false
+    query_scheduler:
+      extraArgs:
+        auth.multitenancy-enabled: false
+    ruler:
+      extraArgs:
+        auth.multitenancy-enabled: false
+    store_gateway:
+      extraArgs:
+        auth.multitenancy-enabled: false
     mimir:
       structuredConfig:
         common:

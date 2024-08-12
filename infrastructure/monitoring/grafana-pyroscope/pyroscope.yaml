@@ -21,6 +21,10 @@ spec:
   values:
     minio:
       enabled: false
+    serviceMonitor:
+      enabled: true
+    alloy:
+      enabled: false
     pyroscope:
       extraArgs:
         store-gateway.sharding-ring.replication-factor: "3"

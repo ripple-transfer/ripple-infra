@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: grafana-k8s-monitoring
+
+resources:
+  - prometheus-crds/pod-monitor.yaml
+  - prometheus-crds/probe.yaml
+  - prometheus-crds/service-monitor.yaml
+  - k8s-monitoring.yaml
+  - namespace.yaml
+  - repository.yaml

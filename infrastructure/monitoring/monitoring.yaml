@@ -41,6 +41,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: ripple-infra
+  dependsOn:
+    - name: monitoring-grafana-mimir
+      namespace: flux-infrastructure
   path: ./infrastructure/monitoring/grafana-tempo
   prune: true
   wait: true
@@ -88,7 +91,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: monitoring-grafana-alloy
+  name: monitoring-grafana-k8s-monitoring
   namespace: flux-infrastructure
 spec:
   interval: 5m
@@ -102,13 +105,9 @@ spec:
       namespace: flux-infrastructure
     - name: monitoring-grafana-loki
       namespace: flux-infrastructure
-  path: ./infrastructure/monitoring/grafana-alloy
+  path: ./infrastructure/monitoring/grafana-k8s-monitoring
   prune: true
   wait: true
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

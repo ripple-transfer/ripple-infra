@@ -13,6 +13,7 @@
 - Upgrade minio to v6
 - Generate separate secrets for all Minio tenants
 - Re-enable Grafana login
+- Re-add Grafana multitenancy
 
 # Hassle
 

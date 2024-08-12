@@ -19,6 +19,16 @@ spec:
         namespace: grafana-tempo
       interval: 12h
   values:
+    gateway:
+      enabled: true
+    metricsGenerator:
+      enabled: true
+      config:
+        storage:
+          remote_write_add_org_id_header: false
+          remote_write:
+            - url: http://mimir-gateway.grafana-mimir.svc/api/v1/push
+              send_exemplars: true
     traces:
       otlp:
         grpc:
@@ -39,6 +49,8 @@ spec:
           bucket: tempo-traces
           endpoint: minio.grafana-tempo.svc
           insecure: true
+    global_overrides:
+      metrics_generator_processors: [service-graphs, span-metrics]
   valuesFrom:
     - kind: Secret
       name: minio-root
