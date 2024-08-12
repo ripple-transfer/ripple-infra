@@ -12,6 +12,7 @@
 - Come up with a custom operator + CRD that simplifies the deployment of KNative services
 - Upgrade minio to v6
 - Generate separate secrets for all Minio tenants
+- Re-enable Grafana login
 
 # Hassle
 
