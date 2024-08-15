@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: k8s-monitoring
@@ -39,6 +39,15 @@ spec:
       enabled: true
     prometheus-operator-crds:
       enabled: false
+    metrics:
+      apiserver:
+        enabled: true
+      kubeControllerManager:
+        enabled: true
+      kubeProxy:
+        enabled: true
+      kubeScheduler:
+        enabled: true
     opencost:
       # TODO: Set up basic auth for this to work
       enabled: false
@@ -46,3 +55,168 @@ spec:
         prometheus:
           external:
             url: http://mimir-gateway.grafana-mimir.svc/prometheus
+    # Hassle: We want to scrape using the classic prometheus.io annotations as well
+    extraConfig: |
+      // pods
+      discovery.relabel "prometheus_annotations_pods" {
+        targets = discovery.kubernetes.pods.targets
+        rule {
+          source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_scrape"]
+          regex = "(true)"
+          action = "keep"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_port", "__meta_kubernetes_pod_ip"]
+          regex = "(\\d+);((([0-9]+?)(\\.|$)){4})"
+          replacement = "$2:$1"
+          target_label = "__address__"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_path"]
+          target_label = "__metrics_path__"
+          regex = "(.*)"
+          replacement = "$1"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_scrape_interval"]
+          target_label = "__scrape_interval__"
+          regex = "(.*)"
+          replacement = "$1"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_scrape_timeout"]
+          target_label = "__scrape_timeout__"
+          regex = "(.*)"
+          replacement = "$1"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_job"]
+          target_label = "job"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_container_port_name"]
+          target_label = "__tmp_port"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_scheme"]
+          action = "replace"
+          target_label = "__scheme__"
+        }
+      }
+
+      // services
+      discovery.relabel "prometheus_annotations_services" {
+        targets = discovery.kubernetes.services.targets
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_scrape"]
+          regex = "(true)"
+          action = "keep"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_path"]
+          target_label = "__metrics_path__"
+          regex = "(.*)"
+          replacement = "$1"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_scrape_interval"]
+          target_label = "__scrape_interval__"
+          regex = "(.*)"
+          replacement = "$1"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_scrape_timeout"]
+          target_label = "__scrape_timeout__"
+          regex = "(.*)"
+          replacement = "$1"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_job"]
+          target_label = "job"
+        }
+
+        // Choose the service port
+        rule {
+          source_labels = ["__meta_kubernetes_service_port_name"]
+          target_label = "__tmp_port"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_port_number"]
+          target_label = "__tmp_port"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_port"]
+          regex = "(.+)"
+          target_label = "__tmp_port"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_service_port_number"]
+          action = "keepequal"
+          target_label = "__tmp_port"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_scheme"]
+          action = "replace"
+          target_label = "__scheme__"
+        }
+      }
+
+
+
+      discovery.relabel "prometheus_annotations_http" {
+        targets = concat(discovery.relabel.prometheus_annotations_pods.output, discovery.relabel.prometheus_annotations_services.output)
+        rule {
+          source_labels = ["__scheme__"]
+          regex = "https"
+          action = "drop"
+        }
+      }
+
+      discovery.relabel "prometheus_annotations_https" {
+        targets = concat(discovery.relabel.prometheus_annotations_pods.output, discovery.relabel.prometheus_annotations_services.output)
+        rule {
+          source_labels = ["__scheme__"]
+          regex = "https"
+          action = "keep"
+        }
+      }
+
+      prometheus.scrape "prometheus_annotations_http" {
+        targets = discovery.relabel.prometheus_annotations_http.output
+        honor_labels = true
+        clustering {
+          enabled = true
+        }
+        forward_to = [prometheus.relabel.prometheus_annotations.receiver]
+      }
+
+      prometheus.scrape "prometheus_annotations_https" {
+        targets = discovery.relabel.prometheus_annotations_https.output
+        honor_labels = true
+        bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+        tls_config {
+          insecure_skip_verify = true
+        }
+        clustering {
+          enabled = true
+        }
+        forward_to = [prometheus.relabel.prometheus_annotations.receiver]
+      }
+
+      prometheus.relabel "prometheus_annotations" {
+        max_cache_size = 100000
+        forward_to = [prometheus.relabel.metrics_service.receiver]
+      }

@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: grafana
@@ -112,16 +112,36 @@ spec:
 
     dashboards:
       default:
-        # all these charts are hosted at https://grafana.com/grafana/dashboards/{id}
-        kubernetes:
-          gnetId: 15479
-          revision: 2
+        trivy:
+          gnetId: 16337
+          revision: 12
+          datasource: mimir
+        global:
+          gnetId: 15757
+          revision: 37
+          datasource: mimir
+        pods:
+          gnetId: 15760
+          revision: 28
+          datasource: mimir
+        namespaces:
+          gnetId: 15758
+          revision: 35
+          datasource: mimir
+        coredns:
+          gnetId: 15762
+          revision: 18
+          datasource: mimir
+        apiserver:
+          gnetId: 15761
+          revision: 17
+          datasource: mimir
+        nodes:
+          gnetId: 15759
+          revision: 29
           datasource: mimir
         prometheus:
-          gnetId: 15489
-          revision: 2
+          gnetId: 19105
+          revision: 3
           datasource: mimir
-        prometheus-benchmark:
-          gnetId: 15490
-          revision: 2
-          datasource: mimir
+
