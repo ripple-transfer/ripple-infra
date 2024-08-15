@@ -11,12 +11,9 @@ spec:
   chart:
     spec:
       chart: operator
-      version: "5.x"
+      version: "6.x"
       sourceRef:
         kind: HelmRepository
         name: minio-operator
         namespace: minio
       interval: 12h
-  values:
-    console:
-      readOnly: true
