@@ -6,10 +6,11 @@
   - Tempo Service Map
 - Loki caching
 - Come up with a custom operator + CRD that simplifies the deployment of KNative services
-- Upgrade minio to v6
 - Generate separate secrets for all Minio tenants
 - Re-enable Grafana login
 - Re-add Grafana multitenancy
+- Set up a new services repository
+- Set up k8s dashboard
 
 # Hassle
 

@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: tenant
-      version: "5.x"
+      version: "6.x"
       sourceRef:
         kind: HelmRepository
         name: minio-operator
