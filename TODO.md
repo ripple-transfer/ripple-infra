@@ -12,6 +12,7 @@
 - Set up a new services repository
 - Set up k8s dashboard
 - https://istio.io/latest/docs/ops/best-practices/observability/
+- Save pod name metrics
 
 # Hassle
 

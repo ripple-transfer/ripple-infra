@@ -52,7 +52,7 @@ spec:
             # very easy to debug
             isDefault: true
             jsonData:
-              timeInterval: "5s"
+              timeInterval: "60s"
               manageAlerts: true
               prometheusType: Mimir
               exemplarTraceIdDestinations:

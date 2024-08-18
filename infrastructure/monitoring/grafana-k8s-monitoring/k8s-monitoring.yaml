@@ -48,6 +48,21 @@ spec:
         enabled: true
       kubeScheduler:
         enabled: true
+      autoDiscover:
+        extraRelabelingRules: |
+          rule {
+            source_labels = [
+              "__meta_kubernetes_pod_label_app",
+              "__meta_kubernetes_pod_label_k8s_app",
+              "__meta_kubernetes_service_label_app",
+              "__meta_kubernetes_service_label_k8s_app",
+              "__meta_kubernetes_endpoints_label_app",
+              "__meta_kubernetes_endpoints_label_k8s_app",
+            ]
+            action = "replace"
+            target_label = "app"
+            separator = ""
+          }
     opencost:
       # TODO: Set up basic auth for this to work
       enabled: false
@@ -55,6 +70,10 @@ spec:
         prometheus:
           external:
             url: http://mimir-gateway.grafana-mimir.svc/prometheus
+    alloy:
+      alloy:
+        clustering:
+          enabled: true
     # Hassle: We want to scrape using the classic prometheus.io annotations as well
     extraConfig: |
       // pods
@@ -108,6 +127,13 @@ spec:
           source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_scheme"]
           action = "replace"
           target_label = "__scheme__"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_label_app", "__meta_kubernetes_pod_label_k8s_app"]
+          action = "replace"
+          target_label = "app"
+          separator = ""
         }
       }
 
@@ -172,12 +198,88 @@ spec:
           action = "replace"
           target_label = "__scheme__"
         }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_label_app", "__meta_kubernetes_service_label_k8s_app"]
+          action = "replace"
+          target_label = "app"
+          separator = ""
+        }
+      }
+
+      // endpoints
+      discovery.relabel "prometheus_annotations_endpoints" {
+        targets = discovery.kubernetes.endpoints.targets
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_scrape"]
+          regex = "(true)"
+          action = "keep"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_path"]
+          target_label = "__metrics_path__"
+          regex = "(.*)"
+          replacement = "$1"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_scrape_interval"]
+          target_label = "__scrape_interval__"
+          regex = "(.*)"
+          replacement = "$1"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_scrape_timeout"]
+          target_label = "__scrape_timeout__"
+          regex = "(.*)"
+          replacement = "$1"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_job"]
+          target_label = "job"
+        }
+
+        // Choose the service port
+        rule {
+          source_labels = ["__meta_kubernetes_service_port_name"]
+          target_label = "__tmp_port"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_port_number"]
+          target_label = "__tmp_port"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_port"]
+          regex = "(.+)"
+          target_label = "__tmp_port"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_service_port_number"]
+          action = "keepequal"
+          target_label = "__tmp_port"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_scheme"]
+          action = "replace"
+          target_label = "__scheme__"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_endpoints_label_app", "__meta_kubernetes_endpoints_label_k8s_app"]
+          action = "replace"
+          target_label = "app"
+          separator = ""
+        }
       }
 
 
-
       discovery.relabel "prometheus_annotations_http" {
-        targets = concat(discovery.relabel.prometheus_annotations_pods.output, discovery.relabel.prometheus_annotations_services.output)
+        targets = concat(discovery.relabel.prometheus_annotations_pods.output, discovery.relabel.prometheus_annotations_services.output, discovery.relabel.prometheus_annotations_endpoints.output)
         rule {
           source_labels = ["__scheme__"]
           regex = "https"
@@ -186,7 +288,7 @@ spec:
       }
 
       discovery.relabel "prometheus_annotations_https" {
-        targets = concat(discovery.relabel.prometheus_annotations_pods.output, discovery.relabel.prometheus_annotations_services.output)
+        targets = concat(discovery.relabel.prometheus_annotations_pods.output, discovery.relabel.prometheus_annotations_services.output, discovery.relabel.prometheus_annotations_endpoints.output)
         rule {
           source_labels = ["__scheme__"]
           regex = "https"
