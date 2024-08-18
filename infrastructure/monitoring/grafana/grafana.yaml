@@ -112,6 +112,7 @@ spec:
 
     dashboards:
       default:
+        # Modern k8s dashboards
         trivy:
           gnetId: 16337
           revision: 12
@@ -144,4 +145,31 @@ spec:
           gnetId: 19105
           revision: 3
           datasource: mimir
+        # Istio dashboards
+        istio-mesh:
+          gnetId: 7639
+          revision: 226
+          datasource: mimir
+        istio-performance:
+          gnetId: 11829
+          revision: 226
+          datasource: mimir
+        istio-service:
+          gnetId: 7636
+          revision: 226
+          datasource: mimir
+        istio-workload:
+          gnetId: 7630
+          revision: 226
+          datasource: mimir
+        istio-control-plane:
+          gnetId: 7645
+          revision: 226
+          datasource: mimir
+        istio-ztunnel:
+          gnetId: 21306
+          revision: 1
+          datasource: mimir
+
+
 

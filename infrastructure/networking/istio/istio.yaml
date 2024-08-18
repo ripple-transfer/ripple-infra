@@ -12,7 +12,7 @@ spec:
   chart:
     spec:
       chart: base
-      version: "1.22.x"
+      version: "1.23.x"
       sourceRef:
         kind: HelmRepository
         name: istio
@@ -34,7 +34,7 @@ spec:
   chart:
     spec:
       chart: cni
-      version: "1.22.x"
+      version: "1.23.x"
       sourceRef:
         kind: HelmRepository
         name: istio
@@ -58,7 +58,7 @@ spec:
   chart:
     spec:
       chart: istiod
-      version: "1.22.x"
+      version: "1.23.x"
       sourceRef:
         kind: HelmRepository
         name: istio
@@ -66,6 +66,9 @@ spec:
       interval: 1m
   values:
     profile: ambient
+    env:
+      PILOT_ENABLE_IP_AUTOALLOCATE: "true"
+      ENABLE_INBOUND_RETRY_POLICY: "true"
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -82,7 +85,7 @@ spec:
   chart:
     spec:
       chart: ztunnel
-      version: "1.22.x"
+      version: "1.23.x"
       sourceRef:
         kind: HelmRepository
         name: istio
