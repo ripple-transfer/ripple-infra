@@ -119,7 +119,19 @@ spec:
         }
 
         rule {
-          source_labels = ["__meta_kubernetes_pod_container_port_name"]
+          source_labels = ["__meta_kubernetes_pod_container_port_number"]
+          target_label = "__tmp_port"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_port"]
+          regex = "(.+)"
+          target_label = "__tmp_port"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_container_port_number"]
+          action = "keepequal"
           target_label = "__tmp_port"
         }
 
@@ -174,19 +186,16 @@ spec:
 
         // Choose the service port
         rule {
-          source_labels = ["__meta_kubernetes_service_port_name"]
-          target_label = "__tmp_port"
-        }
-
-        rule {
           source_labels = ["__meta_kubernetes_service_port_number"]
           target_label = "__tmp_port"
         }
+
         rule {
           source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_port"]
           regex = "(.+)"
           target_label = "__tmp_port"
         }
+
         rule {
           source_labels = ["__meta_kubernetes_service_port_number"]
           action = "keepequal"
@@ -207,8 +216,25 @@ spec:
         }
       }
 
+      // istio
+      discovery.relabel "istio" {
+        targets = discovery.kubernetes.endpoints.targets
+        rule {
+          source_labels = ["__meta_kubernetes_service_name", "__meta_kubernetes_endpoint_port_name"]
+          action = "keep"
+          regex = "istiod;http-monitoring"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_service_label_app", "__meta_kubernetes_service_label_k8s_app"]
+          action = "replace"
+          target_label = "app"
+          separator = ""
+        }
+      }
+
       discovery.relabel "prometheus_annotations_http" {
-        targets = concat(discovery.relabel.prometheus_annotations_pods.output, discovery.relabel.prometheus_annotations_services.output)
+        targets = concat(discovery.relabel.prometheus_annotations_pods.output, discovery.relabel.prometheus_annotations_services.output, discovery.relabel.istio.output)
         rule {
           source_labels = ["__scheme__"]
           regex = "https"
@@ -217,7 +243,7 @@ spec:
       }
 
       discovery.relabel "prometheus_annotations_https" {
-        targets = concat(discovery.relabel.prometheus_annotations_pods.output, discovery.relabel.prometheus_annotations_services.output)
+        targets = concat(discovery.relabel.prometheus_annotations_pods.output, discovery.relabel.prometheus_annotations_services.output, discovery.relabel.istio.output)
         rule {
           source_labels = ["__scheme__"]
           regex = "https"
