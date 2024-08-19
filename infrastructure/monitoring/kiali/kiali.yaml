@@ -1,0 +1,45 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kiali-operator
+  namespace: kiali-operator
+spec:
+  interval: 30m
+  releaseName: kiali
+  chart:
+    spec:
+      chart: kiali-operator
+      version: "1.x"
+      sourceRef:
+        kind: HelmRepository
+        name: kiali
+        namespace: kiali-operator
+      interval: 12h
+  values:
+    cr:
+      create: true
+      name: kiali
+      namespace: istio-system
+      spec:
+        external_services:
+          grafana:
+            enabled: true
+            in_cluster_url: http://grafana.grafana.svc.cluster.local:80
+            url: "https://grafana.ripple-infra.dev"
+          prometheus:
+            enabled: true
+            url: http://mimir-gateway.grafana-mimir.svc.cluster.local:80/prometheus
+            health_check_url: http://mimir-query-frontend.grafana-mimir.svc.cluster.local:8080/api/v1/status/config
+          tracing:
+            enabled: true
+            health_check_url: http://tempo-query-frontend.grafana-tempo.svc.cluster.local:3100
+            in_cluster_url: http://tempo-query-frontend.grafana-tempo.svc.cluster.local:3100
+            provider: tempo
+            tempo_config:
+              datasource_uid: tempo
+            grpc_port: 9095
+            use_grpc: true
+        auth:
+          strategy: anonymous
+
