@@ -118,22 +118,22 @@ spec:
           target_label = "job"
         }
 
-        rule {
-          source_labels = ["__meta_kubernetes_pod_container_port_number"]
-          target_label = "__tmp_port"
-        }
+        // rule {
+        //   source_labels = ["__meta_kubernetes_pod_container_port_number"]
+        //   target_label = "__tmp_port"
+        // }
 
-        rule {
-          source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_port"]
-          regex = "(.+)"
-          target_label = "__tmp_port"
-        }
+        // rule {
+        //   source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_port"]
+        //   regex = "(.+)"
+        //   target_label = "__tmp_port"
+        // }
 
-        rule {
-          source_labels = ["__meta_kubernetes_pod_container_port_number"]
-          action = "keepequal"
-          target_label = "__tmp_port"
-        }
+        // rule {
+        //   source_labels = ["__meta_kubernetes_pod_container_port_number"]
+        //   action = "keepequal"
+        //   target_label = "__tmp_port"
+        // }
 
         rule {
           source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_scheme"]
@@ -184,23 +184,31 @@ spec:
           target_label = "job"
         }
 
+        rule {
+          source_labels = ["__address__", "__meta_kubernetes_service_annotation_prometheus_io_port"]
+          action = "replace"
+          regex = "(.+?)(?::\\d+)?;(\\d+)"
+          replacement = "$1:$2"
+          target_label = "__address__"
+        }
+
         // Choose the service port
-        rule {
-          source_labels = ["__meta_kubernetes_service_port_number"]
-          target_label = "__tmp_port"
-        }
+        // rule {
+        //   source_labels = ["__meta_kubernetes_service_port_number"]
+        //   target_label = "__tmp_port"
+        // }
 
-        rule {
-          source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_port"]
-          regex = "(.+)"
-          target_label = "__tmp_port"
-        }
+        // rule {
+        //   source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_port"]
+        //   regex = "(.+)"
+        //   target_label = "__tmp_port"
+        // }
 
-        rule {
-          source_labels = ["__meta_kubernetes_service_port_number"]
-          action = "keepequal"
-          target_label = "__tmp_port"
-        }
+        // rule {
+        //   source_labels = ["__meta_kubernetes_service_port_number"]
+        //   action = "keepequal"
+        //   target_label = "__tmp_port"
+        // }
 
         rule {
           source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_scheme"]
