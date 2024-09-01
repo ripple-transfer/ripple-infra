@@ -7,3 +7,4 @@ resources:
   - grafana-grant.yaml
   - namespace.yaml
   - repository.yaml
+  - waypoint.yaml

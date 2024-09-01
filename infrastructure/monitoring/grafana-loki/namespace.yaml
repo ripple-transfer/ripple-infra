@@ -5,3 +5,4 @@ metadata:
   name: grafana-loki
   labels:
     istio.io/dataplane-mode: ambient
+    istio.io/use-waypoint: waypoint

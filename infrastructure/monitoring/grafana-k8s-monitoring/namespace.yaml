@@ -5,3 +5,4 @@ metadata:
   name: grafana-k8s-monitoring
   labels:
     istio.io/dataplane-mode: ambient
+    istio.io/use-waypoint: waypoint

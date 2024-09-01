@@ -6,3 +6,4 @@ resources:
   - k8s-monitoring.yaml
   - namespace.yaml
   - repository.yaml
+  - waypoint.yaml

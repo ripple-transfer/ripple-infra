@@ -70,6 +70,7 @@ spec:
       PILOT_ENABLE_IP_AUTOALLOCATE: "true"
       ENABLE_INBOUND_RETRY_POLICY: "true"
     meshConfig:
+      enablePrometheusMerge: false
       defaultProviders:
         tracing:
           - otel-tracing
