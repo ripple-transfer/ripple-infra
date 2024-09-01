@@ -60,8 +60,8 @@ spec:
     - kind: Secret
       name: minio-root
       valuesKey: accessKey
-      targetPath: secrets.accessKey
+      targetPath: tenant.configSecret.accessKey
     - kind: Secret
       name: minio-root
       valuesKey: secretKey
-      targetPath: secrets.secretKey
+      targetPath: tenant.configSecret.secretKey
