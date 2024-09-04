@@ -75,6 +75,12 @@ spec:
         clustering:
           enabled: true
     # Hassle: We want to scrape using the classic prometheus.io annotations as well
+
+    # Hassle: The default annotation scraping config in k8s-monitoring discards pods / services
+    # that do not match the requested annotation port number. Unfortunately, this is not a viable solution,
+    # as sometimes Prometheus metric ports are not exposed as container ports (e.g. on Istio pods). Instead,
+    # we replace the scrape port for each discovered Kubernetes resource and rely on Alloy's deduplication
+    # to leave us with a single target per resource
     extraConfig: |
       // pods
       discovery.relabel "prometheus_annotations_pods" {
@@ -117,23 +123,6 @@ spec:
           source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_job"]
           target_label = "job"
         }
-
-        // rule {
-        //   source_labels = ["__meta_kubernetes_pod_container_port_number"]
-        //   target_label = "__tmp_port"
-        // }
-
-        // rule {
-        //   source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_port"]
-        //   regex = "(.+)"
-        //   target_label = "__tmp_port"
-        // }
-
-        // rule {
-        //   source_labels = ["__meta_kubernetes_pod_container_port_number"]
-        //   action = "keepequal"
-        //   target_label = "__tmp_port"
-        // }
 
         rule {
           source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_scheme"]
@@ -191,24 +180,6 @@ spec:
           replacement = "$1:$2"
           target_label = "__address__"
         }
-
-        // Choose the service port
-        // rule {
-        //   source_labels = ["__meta_kubernetes_service_port_number"]
-        //   target_label = "__tmp_port"
-        // }
-
-        // rule {
-        //   source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_port"]
-        //   regex = "(.+)"
-        //   target_label = "__tmp_port"
-        // }
-
-        // rule {
-        //   source_labels = ["__meta_kubernetes_service_port_number"]
-        //   action = "keepequal"
-        //   target_label = "__tmp_port"
-        // }
 
         rule {
           source_labels = ["__meta_kubernetes_service_annotation_prometheus_io_scheme"]

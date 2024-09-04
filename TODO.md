@@ -14,7 +14,7 @@
 - https://istio.io/latest/docs/ops/best-practices/observability/
 - Save pod name metrics
 - Set up kiali auth
-- Prometheus annotation metrics for pods are scraped as many times as the pods have ports, this is because istio doesn't have a pod container port exposed that matches their Prometheus setup (even though it still works)
+- Set up OpenCost (needs Prometheus basic auth)
 
 # Hassle
 
