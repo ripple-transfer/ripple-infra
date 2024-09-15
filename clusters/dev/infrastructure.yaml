@@ -74,6 +74,27 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: framework
+  namespace: flux-infrastructure
+spec:
+  interval: 5m
+  dependsOn:
+    - name: networking
+      namespace: flux-infrastructure
+    - name: monitoring
+      namespace: flux-infrastructure
+    - name: core
+      namespace: flux-infrastructure
+  sourceRef:
+    kind: GitRepository
+    name: ripple-infra
+  path: ./infrastructure/framework
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: ingress
   namespace: flux-infrastructure
 spec:
@@ -84,6 +105,8 @@ spec:
     - name: monitoring
       namespace: flux-infrastructure
     - name: core
+      namespace: flux-infrastructure
+    - name: framework
       namespace: flux-infrastructure
   sourceRef:
     kind: GitRepository

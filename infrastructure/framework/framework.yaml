@@ -1,0 +1,41 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: framework-strimzi
+  namespace: flux-infrastructure
+spec:
+  interval: 5m
+  timeout: 10m
+  sourceRef:
+    kind: GitRepository
+    name: ripple-infra
+  path: ./infrastructure/framework/strimzi
+  prune: true
+  wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: framework-kafka
+  namespace: flux-infrastructure
+spec:
+  interval: 5m
+  timeout: 10m
+  sourceRef:
+    kind: GitRepository
+    name: ripple-infra
+  dependsOn:
+    - name: framework-strimzi
+      namespace: flux-infrastructure
+  path: ./infrastructure/framework/kafka
+  prune: true
+  wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
